@@ -1,0 +1,231 @@
+/* Reset and basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    background-color: white;
+    color: #333;
+}
+
+/* Header styling */
+header {
+    padding: 30px 40px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+header h1 a {
+    color: #333;
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #999;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+    color: #333;
+}
+
+/* Masonry gallery */
+.gallery {
+    column-count: 4;
+    column-gap: 0px;
+    padding: 0px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    break-inside: avoid;
+    margin-bottom: 0px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s;
+}
+
+.gallery-item img:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .gallery {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery {
+        column-count: 2;
+    }
+    
+    header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery {
+        column-count: 1;
+    }
+}
+/* About Page */
+.about-page {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 60px;
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-portrait img {
+    width: 100%;
+    height: auto;
+}
+
+.about-content h2 {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    letter-spacing: -0.5px;
+}
+
+.about-content p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+/* Responsive for About page */
+@media (max-width: 1024px) {
+    .about-page {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .about-portrait {
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
+
+/* Music Page */
+.music-page {
+    padding: 60px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.music-page h2 {
+    font-size: 36px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 2px;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    justify-items: center; /* This centers the items */
+}
+
+.music-grid a {
+    display: block;
+    transition: opacity 0.3s;
+    max-width: 100%; /* Ensures images don't overflow */
+}
+
+.music-grid a:hover {
+    opacity: 0.7;
+}
+
+.music-grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsive for Music page */
+@media (max-width: 1024px) {
+    .music-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .music-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+/* Connect Page */
+.connect-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 60px 40px;
+}
+
+.connect-content {
+    text-align: center;
+    max-width: 600px;
+}
+
+.connect-content h2 {
+    font-size: 72px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    letter-spacing: -1px;
+}
+
+.connect-content p {
+    font-size: 24px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.connect-content .email-link {
+    margin-top: 10px;
+}
+
+.connect-content .email-link a {
+    color: #333;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.connect-content .email-link a:hover {
+    opacity: 0.6;
+}
