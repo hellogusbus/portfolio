@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'VT323', monospace;
     background-color: white;
     color: #333;
 }
@@ -125,7 +125,74 @@ nav a.active {
     margin-bottom: 20px;
     font-size: 16px;
 }
+/* About Page */
+.about-page {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 60px;
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
+.about-portrait {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Right align everything */
+}
+
+.about-portrait img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px; /* Space between image and buttons */
+}
+
+.about-icons {
+    display: flex;
+    gap: 8px; /* Space between buttons - adjust this to be closer/further */
+    justify-content: flex-end; /* Right align the buttons */
+}
+
+.about-icons a {
+    display: block;
+    transition: opacity 0.3s;
+}
+
+.about-icons a:hover {
+    opacity: 0.6;
+}
+
+.about-icons img {
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    display: block;
+}
+
+.about-content h2 {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    letter-spacing: -0.5px;
+}
+
+.about-content p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+/* Responsive for About page */
+@media (max-width: 1024px) {
+    .about-page {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .about-portrait {
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
 /* Responsive for About page */
 @media (max-width: 1024px) {
     .about-page {
@@ -176,7 +243,6 @@ nav a.active {
     height: auto;
     display: block;
 }
-
 /* Responsive for Music page */
 @media (max-width: 1024px) {
     .music-grid {
@@ -229,3 +295,130 @@ nav a.active {
 .connect-content .email-link a:hover {
     opacity: 0.6;
 }
+.menu a img {
+    width: 50px; /* Adjust size as needed */
+    height: auto;
+    display: block;
+    transition: transform 0.2s; /* optional hover effect */
+}
+
+.menu a.active img {
+    border: 2px solid #000; /* highlight active menu */
+    border-radius: 8px;
+}
+
+.menu a img:hover {
+    transform: scale(1.1); /* subtle zoom on hover */
+}
+.menu a img {
+    width: 30px;   /* smaller width */
+    height: 30px;  /* keep square for icons */
+    display: block;
+    transition: transform 0.2s;
+}
+
+.menu a.active img {
+    border: 2px solid #000;  /* optional highlight */
+    border-radius: 4px;
+}
+
+.menu a img:hover {
+    transform: scale(1.1);    /* subtle zoom effect */
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox.fade-out {
+    opacity: 0;
+}
+
+.lightbox-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.lightbox-image-container img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation arrows */
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 60px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    padding: 20px;
+    transition: opacity 0.3s;
+    z-index: 10000;
+}
+
+.lightbox-arrow:hover {
+    opacity: 0.7;
+}
+
+.lightbox-prev {
+    left: 40px;
+}
+
+.lightbox-next {
+    right: 40px;
+}
+
+/* Make gallery images clickable */
+.gallery-item {
+    cursor: pointer;
+}
+
+.gallery-item img {
+    transition: opacity 0.3s;
+}
+
+.gallery-item:hover img {
+    opacity: 0.8;
+}
+
+/* Responsive arrows */
+@media (max-width: 768px) {
+    .lightbox-arrow {
+        font-size: 40px;
+        padding: 10px;
+    }
+    
+    .lightbox-prev {
+        left: 10px;
+    }
+    
+    .lightbox-next {
+        right: 10px;
+    }
+}
+}
+

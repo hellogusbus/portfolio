@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="css/home-splash.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Angus McBryde</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Home Splash Screen -->
+<div id="homeSplash" class="home-splash">
+    <div class="quote-container">
+        <div class="quote-text"></div>
+    </div>
+</div>
     <header>
         <h1><a href="index.html">Angus McBryde</a></h1>
-        <nav>
-            <a href="index.html" class="active">Work</a>
-            <a href="about.html">About</a>
-        </nav>
+      <nav class="menu">
+    <a href="about.html">
+        <img src="images/icon-about.png" alt="About">
+    </a>
+</nav>
+
     </header>
 
     <main class="gallery">
@@ -173,5 +182,7 @@
         <img src="images/work3.jpg" alt="Work 3">
     </div>
 </main>
+<script src="js/home-splash.js"></script>
+<script src="js/gallery.js"></script>
 </body>
 </html>
