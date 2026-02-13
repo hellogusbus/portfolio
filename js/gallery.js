@@ -19,6 +19,11 @@ const imageContainer = document.createElement('div');
 imageContainer.className = 'lightbox-image-container';
 lightbox.appendChild(imageContainer);
 
+// Create caption element
+const caption = document.createElement('div');
+caption.className = 'lightbox-caption';
+lightbox.appendChild(caption);
+
 // Get all gallery items
 const galleryItems = document.querySelectorAll('.gallery-item img');
 let currentIndex = 0;
@@ -31,6 +36,11 @@ function showImage(index) {
     // Clear image container and add new image
     imageContainer.innerHTML = '';
     imageContainer.appendChild(clonedImg);
+    
+    // Update caption
+    const captionText = galleryItems[index].getAttribute('data-caption');
+    caption.textContent = captionText || '';
+    caption.style.display = captionText ? 'block' : 'none';
     
     currentIndex = index;
 }
@@ -82,7 +92,7 @@ galleryItems.forEach((img, index) => {
 prevArrow.addEventListener('click', prevImage);
 nextArrow.addEventListener('click', nextImage);
 
-// Close lightbox when clicking on background (not on image or arrows)
+// Close lightbox when clicking on background (not on image, arrows, or caption)
 lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) {
         closeLightbox();
