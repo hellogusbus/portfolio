@@ -265,7 +265,7 @@ a:visited {
 
 @media (max-width: 768px) {
     .music-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 /* Sort controls */
@@ -398,7 +398,7 @@ a:visited {
 
 .lightbox-image-container {
     position: absolute;
-    top: 42%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -407,14 +407,14 @@ a:visited {
     max-width: 95%;
     max-height: 90%;
     pointer-events: none;
+    padding-bottom: 50px; /* Reserve space for caption */
 }
 
 .lightbox-image-container img {
     max-width: 95vw;
-    max-height: 80vh;
+    max-height: calc(100vh - 50px); /* Account for caption space */
     object-fit: contain;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-}
 }
 
 /* Navigation arrows */
@@ -446,16 +446,16 @@ a:visited {
 /* Lightbox caption */
 .lightbox-caption {
     position: absolute;
-    bottom: 60px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     color: white;
     font-size: 16px;
     text-align: center;
     max-width: 80%;
-    padding: 10px 20px;
+    padding: 15px 20px;
     background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 4px;
+    border-radius: 0;
     z-index: 10001;
 }
 
@@ -488,8 +488,9 @@ a:visited {
     }
     
     .lightbox-caption {
-        bottom: 30px;
+        bottom: 0;
         font-size: 14px;
+        padding: 12px 15px;
     }
     
     .lightbox-image-container img {
