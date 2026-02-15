@@ -1,0 +1,15 @@
+# robots.txt for Angus McBryde Portfolio
+
+User-agent: *
+Allow: /
+
+# Disallow crawling of CSS and JS files to save crawl budget (optional)
+# Allow: /css/
+# Allow: /js/
+
+# Sitemap location
+Sitemap: https://www.angusmcbry.de/sitemap.xml
+
+# Prevent indexing of any admin or private directories (if applicable)
+# Disallow: /admin/
+# Disallow: /private/

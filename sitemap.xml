@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.angusmcbry.de/</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    
+    <!-- Image URLs for gallery items -->
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/Asta_pressshot.jpeg</image:loc>
+      <image:title>Asta Press Shot - Music Photography</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/1.NR_July-723x1024.jpg.jpeg</image:loc>
+      <image:title>Nadia Reid July Tour Poster</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/2_Lemons_Large-723x1024.jpg.jpeg</image:loc>
+      <image:title>Lemons Lemons Lemons Theatre Poster</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/2020tour_poster_screen_NZ_fix.jpg.jpeg</image:loc>
+      <image:title>2020 New Zealand Tour Poster</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/2021_Asta_Males_Tour.jpeg</image:loc>
+      <image:title>Asta Males Tour 2021 Poster</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/AR_ENTRTNMNT_cover_CD_1.png</image:loc>
+      <image:title>AR Entertainment Album Cover Design</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/TinyRuins-Ceremony-front.jpg.jpeg</image:loc>
+      <image:title>Tiny Ruins Ceremony Album Artwork</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://www.angusmcbry.de/images/Thom_Pain_Poster_large.jpg.jpeg</image:loc>
+      <image:title>Thom Pain Theatre Poster Design</image:title>
+    </image:image>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://www.angusmcbry.de/about.html</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+</urlset>
