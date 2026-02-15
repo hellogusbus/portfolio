@@ -40,10 +40,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/home-splash.css">
+    <!-- Stylesheets - Optimized Loading -->
+    <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/seo-accessibility.css">
+    <link rel="stylesheet" href="css/home-splash.css">
+    <link rel="stylesheet" href="css/seo-accessibility.css" media="print" onload="this.media='all'">
     
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,32 +108,32 @@
         </nav>
     </header>
 
-    <!-- Main Content with semantic structure -->
+     <!-- Main Content with semantic structure -->
     <main class="gallery" role="main" aria-label="Portfolio Gallery">
         <h2 class="visually-hidden">Portfolio Gallery</h2>
         
         <article class="gallery-item">
-            <img src="images/Asta_pressshot.jpeg" alt="Asta Press Shot - Music Photography" width="723" height="1024" loading="eager" data-caption="Band press shot concept. Photographer - Alex Lovell-Smith">
+            <img src="images/Asta_pressshot.webp" alt="Asta Press Shot - Music Photography" width="723" height="1024" loading="eager" data-caption="Band press shot concept. Photographer - Alex Lovell-Smith">
         </article>
         
         <article class="gallery-item">
-            <img src="images/work3.jpg" alt="AAF2023" width="723" height="1024" loading="eager" data-caption="Composite artwork for Forest & Bird 100th anniversary show as part of Auckland Arts Festival 2023.">
+            <img src="images/work3.webp" alt="AAF2023" width="723" height="1024" loading="eager" data-caption="Composite artwork for Forest & Bird 100th anniversary show as part of Auckland Arts Festival 2023.">
         </article>
         
         <article class="gallery-item">
-            <img src="images/1.NR_July-723x1024.jpg" alt="Nadia Reid July Tour Poster" width="723" height="1024" loading="eager" data-caption="Nadia Reid July Tour Poster">
+            <img src="images/1.NR_July-723x1024.webp" alt="Nadia Reid July Tour Poster" width="723" height="1024" loading="eager" data-caption="Nadia Reid July Tour Poster">
         </article>
         
         <article class="gallery-item">
-            <img src="images/2_Lemons_Large-723x1024.jpg.jpeg" alt="Lemons Lemons Lemons Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
+            <img src="images/2_Lemons_Large-723x1024.webp" alt="Lemons Lemons Lemons Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/3_Sister_Large-723x1024.jpg.jpeg" alt="Sister Theatre Production Poster" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
+            <img src="images/3_Sister_Large-723x1024.webp" alt="Sister Theatre Production Poster" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/3.jpg" alt="Creative Design Project" width="723" height="1024" loading="lazy" data-caption="Dunedin Arts Festival Show Poster Design">
+            <img src="images/3.webp" alt="Creative Design Project" width="723" height="1024" loading="lazy" data-caption="Dunedin Arts Festival Show Poster Design">
         </article>
         
         <article class="gallery-item">
@@ -140,15 +141,15 @@
         </article>
         
         <article class="gallery-item">
-            <img src="images/2021-DAF.jpg" alt="DAF 2021 Festival Design" width="723" height="1024" loading="lazy" data-caption="Dunedin Arts Festival 2021 Brochure Design">
+            <img src="images/2021-DAF.webp" alt="DAF 2021 Festival Design" width="723" height="1024" loading="lazy" data-caption="Dunedin Arts Festival 2021 Brochure Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/2022-DAF_crop.jpg_1.jpeg" alt="DAF 2022 Festival Design" width="723" height="1024" loading="lazy" data-caption="Dunedin Arts Festival 2022 Brochure Design">
+            <img src="images/2022-DAF_crop.webp" alt="DAF 2022 Festival Design" width="723" height="1024" loading="lazy" data-caption="Dunedin Arts Festival 2022 Brochure Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/AR_ENTRTNMNT_cover_CD_1.png" alt="AR Entertainment Album Cover Design" width="723" height="1024" loading="lazy" data-caption="Album cover + package design ">
+            <img src="images/AR_ENTRTNMNT_cover_CD_1.webp" alt="AR Entertainment Album Cover Design" width="723" height="1024" loading="lazy" data-caption="Album cover + package design ">
         </article>
         
         <article class="gallery-item">
@@ -156,23 +157,23 @@
         </article>
         
         <article class="gallery-item">
-            <img src="images/Attila_Large-723x1024.jpg" alt="Attila Theatre Poster Design" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
+            <img src="images/Attila_Large-723x1024.webp" alt="Attila Theatre Poster Design" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/bareposter.jpeg" alt="Bare Theatre Poster Design" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept & Design">
+            <img src="images/bareposter.webp" alt="Bare Theatre Poster Design" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/BCMD_large1.jpg" alt="BCMD Brand Design" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Design">
+            <img src="images/BCMD_large1.webp" alt="BCMD Brand Design" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/BHB_WALU_tour_poster_a3_FINAL.jpg.jpeg" alt="BHB WALU Tour Poster Design" width="723" height="1024" loading="lazy" data-caption="Tour Poster Design">
+            <img src="images/BHB_WALU_tour_poster_a3_FINAL.webp" alt="BHB WALU Tour Poster Design" width="723" height="1024" loading="lazy" data-caption="Tour Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Canons_Mockup.jpg.jpeg" alt="Canons Brand Mockup Design" width="723" height="1024" loading="lazy" data-caption="Lyric Book Design">
+            <img src="images/Canons_Mockup.webp" alt="Canons Brand Mockup Design" width="723" height="1024" loading="lazy" data-caption="Lyric Book Design">
         </article>
         
         <article class="gallery-item">
@@ -180,39 +181,39 @@
         </article>
         
         <article class="gallery-item">
-            <img src="images/Fold_large.jpg_1.jpeg" alt="Fold Design Project" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
+            <img src="images/Fold_large.webp" alt="Fold Design Project" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Glocknid_Large.jpg.jpeg" alt="Glocknid Design Project" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept, Illustration & Design">
+            <img src="images/Glocknid_Large.webp" alt="Glocknid Design Project" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept, Illustration & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Harlequeen_Dunedin_A3.jpg_1.jpeg" alt="Harlequeen Dunedin Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Design">
+            <img src="images/Harlequeen_Dunedin_A3.webp" alt="Harlequeen Dunedin Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/IFAAO_logo_options.jpg.jpeg" alt="IFAAO Logo Design Options" width="723" height="1024" loading="lazy" data-caption="Food Organisation Logo">
+            <img src="images/IFAAO_logo_options.webp" alt="IFAAO Logo Design Options" width="723" height="1024" loading="lazy" data-caption="Food Organisation Logo">
         </article>
         
         <article class="gallery-item">
-            <img src="images/imasdfsdge-asset.jpeg" alt="Design Asset" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
+            <img src="images/imasdfsdge-asset.webp" alt="Design Asset" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Innovation-Centre-682x1024_1.png" alt="Innovation Centre Brand Design" width="723" height="1024" loading="lazy" data-caption="Vector Illustration">
+            <img src="images/Innovation-Centre-682x1024_1.webp" alt="Innovation Centre Brand Design" width="723" height="1024" loading="lazy" data-caption="Vector Illustration">
         </article>
         
         <article class="gallery-item">
-            <img src="images/J_W_Large.jpg.jpeg" alt="J W Design Project" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept, Illustration & Design">
+            <img src="images/J_W_Large.webp" alt="J W Design Project" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept, Illustration & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Keewai-BizCards.jpg.jpeg" alt="Keewai Business Cards Design" width="723" height="1024" loading="lazy" data-caption="Branding & Design">
+            <img src="images/Keewai-BizCards.webp" alt="Keewai Business Cards Design" width="723" height="1024" loading="lazy" data-caption="Branding & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/kiri_web.jpg.jpeg" alt="Kiri Web Design" width="723" height="1024" loading="lazy" data-caption="Concert Poster Design">
+            <img src="images/kiri_web.webp" alt="Kiri Web Design" width="723" height="1024" loading="lazy" data-caption="Concert Poster Design">
         </article>
         
         <article class="gallery-item">
@@ -220,19 +221,19 @@
         </article>
         
         <article class="gallery-item">
-            <img src="images/Males_Poster.jpg_1.jpeg" alt="Males Concert Poster Design" width="723" height="1024" loading="lazy" data-caption="Tour Poster Design">
+            <img src="images/Males_Poster.webp" alt="Males Concert Poster Design" width="723" height="1024" loading="lazy" data-caption="Tour Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Males_Thundercub_Web_large.jpg_1.jpeg" alt="Males Thundercub Web Design" width="723" height="1024" loading="lazy" data-caption="Show Poster Digital Illustration and Design">
+            <img src="images/Males_Thundercub_Web_large.webp" alt="Males Thundercub Web Design" width="723" height="1024" loading="lazy" data-caption="Show Poster Digital Illustration and Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Nation-Dates1.jpg_1.jpeg" alt="Nation Tour Dates Poster" width="723" height="1024" loading="lazy" data-caption="Book Design">
+            <img src="images/Nation-Dates1.webp" alt="Nation Tour Dates Poster" width="723" height="1024" loading="lazy" data-caption="Book Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/NR_large.jpg.jpeg" alt="NR Album Artwork" width="723" height="1024" loading="lazy" data-caption="Tour Poster Design">
+            <img src="images/NR_large.webp" alt="NR Album Artwork" width="723" height="1024" loading="lazy" data-caption="Tour Poster Design">
         </article>
         
         <article class="gallery-item">
@@ -240,27 +241,27 @@
         </article>
         
         <article class="gallery-item">
-            <img src="images/NR_Xmas_2019_Poster.jpg.jpeg" alt="NR Christmas 2019 Concert Poster" width="723" height="1024" loading="lazy" data-caption="Concept Poster Design">
+            <img src="images/NR_Xmas_2019_Poster.webp" alt="NR Christmas 2019 Concert Poster" width="723" height="1024" loading="lazy" data-caption="Concept Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/pupilzero_large.jpg.jpeg" alt="Pupil Zero Design Project" width="723" height="1024" loading="lazy" data-caption="Theatres Show Poster Illustration & Design">
+            <img src="images/pupilzero_large.webp" alt="Pupil Zero Design Project" width="723" height="1024" loading="lazy" data-caption="Theatres Show Poster Illustration & Design">
         </article>
 
         <article class="gallery-item">
-            <img src="images/Screen+Shot+2019-12-05+at+7.05.54+AM.png" alt="Design Screenshot 2019" width="723" height="1024" loading="lazy" data-caption="Health Organisation Branding">
+            <img src="images/Screen+Shot+2019-12-05+at+7.05.54+AM.webp" alt="Design Screenshot 2019" width="723" height="1024" loading="lazy" data-caption="Health Organisation Branding">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Screen+Shot+2020-04-28+at+8.34.11+AM.png" alt="Design Screenshot April 2020" width="723" height="1024" loading="lazy" data-caption="Album Art Design">
+            <img src="images/Screen+Shot+2020-04-28+at+8.34.11+AM.webp" alt="Design Screenshot April 2020" width="723" height="1024" loading="lazy" data-caption="Album Art Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/Screen+Shot+2020-05-07+at+4.14.30+PM.png" alt="Design Screenshot May 2020" width="723" height="1024" loading="lazy" data-caption="Arts Festival Wordmark">
+            <img src="images/Screen+Shot+2020-05-07+at+4.14.30+PM.webp" alt="Design Screenshot May 2020" width="723" height="1024" loading="lazy" data-caption="Arts Festival Wordmark">
         </article>
         
         <article class="gallery-item">
-            <img src="images/SJD_MKUP.jpg_1.jpeg" alt="SJD Album Mockup Design" width="723" height="1024" loading="lazy" data-caption="Record packaging design">
+            <img src="images/SJD_MKUP.webp" alt="SJD Album Mockup Design" width="723" height="1024" loading="lazy" data-caption="Record packaging design">
         </article>
         
         <article class="gallery-item">
@@ -268,39 +269,39 @@
         </article>
         
         <article class="gallery-item">
-            <img src="images/TBS_Large-1-723x1024.jpg.jpeg" alt="TBS Design Project" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Design">
+            <img src="images/TBS_Large-1-723x1024.webp" alt="TBS Design Project" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/The_Flick_A3_Screen.jpg_1.jpeg" alt="The Flick Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept & Design">
+            <img src="images/The_Flick_A3_Screen.webp" alt="The Flick Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Theatre Poster Concept & Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/timthumb.php.jpg_1.jpeg" alt="Design Thumbnail 1" width="723" height="1024" loading="lazy" data-caption="Arts Festival Show Poster Design">
+            <img src="images/timthumb.php.webp" alt="Design Thumbnail 1" width="723" height="1024" loading="lazy" data-caption="Arts Festival Show Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/timthumb2.php.jpg.jpeg" alt="Design Thumbnail 2" width="723" height="1024" loading="lazy" data-caption="Arts Festival Show Poster Design">
+            <img src="images/timthumb2.php.webp" alt="Design Thumbnail 2" width="723" height="1024" loading="lazy" data-caption="Arts Festival Show Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/TinyRuins-Ceremony-front.jpg.jpeg" alt="Tiny Ruins Ceremony Album Artwork" width="723" height="1024" loading="lazy" data-caption="Record Packaging Design">
+            <img src="images/TinyRuins-Ceremony-front.webp" alt="Tiny Ruins Ceremony Album Artwork" width="723" height="1024" loading="lazy" data-caption="Record Packaging Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/TLol_Large-723x1024.jpg" alt="TLol Design Project" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Design">
+            <img src="images/TLol_Large-723x1024.webp" alt="TLol Design Project" width="723" height="1024" loading="lazy" data-caption="Arcade Theatre Co. Show Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/WITWH_large.jpg_1.jpeg" alt="WITWH Design Project" width="723" height="1024" loading="lazy" data-caption="Theatre Show Poster Design">
+            <img src="images/WITWH_large.webp" alt="WITWH Design Project" width="723" height="1024" loading="lazy" data-caption="Theatre Show Poster Design">
         </article>
         
         <article class="gallery-item">
-            <img src="images/work1.jpg" alt="Graphic Design Portfolio Work 1" width="723" height="1024" loading="lazy" data-caption="Self Portrait, Digital Illustration">
+            <img src="images/work1.webp" alt="Graphic Design Portfolio Work 1" width="723" height="1024" loading="lazy" data-caption="Self Portrait, Digital Illustration">
         </article>
         
         <article class="gallery-item">
-            <img src="images/work2.jpg" alt="Graphic Design Portfolio Work 2" width="723" height="1024" loading="lazy" data-caption="Album Art Design">
+            <img src="images/work2.webp" alt="Graphic Design Portfolio Work 2" width="723" height="1024" loading="lazy" data-caption="Album Art Design">
         </article>
     </main>
     
@@ -309,7 +310,7 @@
         <p>&copy; 2026 Angus McBryde. All rights reserved.</p>
     </footer>
     
-    <script src="js/home-splash.js"></script>
-    <script src="js/gallery.js"></script>
+    <script src="js/home-splash.js" defer></script>
+    <script src="js/gallery.js" defer></script>
 </body>
 </html>
