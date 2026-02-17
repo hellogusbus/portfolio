@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'VT323', monospace;
     background-color: white;
     color: #333;
 }
@@ -94,12 +94,6 @@ nav a.active {
 @media (max-width: 768px) {
     .gallery {
         column-count: 2;
-    }
-    
-    header {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
     }
 }
 
@@ -329,7 +323,7 @@ a:visited {
     border: 1px solid #ddd;
     padding: 8px 16px;
     margin: 0 5px;
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'VT323', monospace;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s;
@@ -595,3 +589,4 @@ a:visited {
     }
 }
 }
+
