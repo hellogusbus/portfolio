@@ -1,3 +1,14 @@
+// ── Fade-in images on load ──────────────────────────────────────────
+document.querySelectorAll('.gallery-item img').forEach(img => {
+    if (img.complete) {
+        img.classList.add('loaded');
+    } else {
+        img.addEventListener('load', () => img.classList.add('loaded'));
+        img.addEventListener('error', () => img.classList.add('loaded'));
+    }
+});
+
+// ── Lightbox ────────────────────────────────────────────────────────
 // Create lightbox element
 const lightbox = document.createElement('div');
 lightbox.className = 'lightbox';
