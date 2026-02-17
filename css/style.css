@@ -151,10 +151,36 @@ nav a.active {
     align-items: flex-end; /* Right align everything */
 }
 
-.about-portrait img {
+.about-portrait .portrait-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px; /* Space between image and buttons */
+}
+
+.about-portrait .portrait-container img {
     width: 100%;
     height: auto;
-    margin-bottom: 15px; /* Space between image and buttons */
+    display: block;
+    transition: opacity 0.5s ease;
+}
+
+.about-portrait .portrait-default {
+    opacity: 1;
+}
+
+.about-portrait .portrait-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.about-portrait .portrait-container:hover .portrait-default {
+    opacity: 0;
+}
+
+.about-portrait .portrait-container:hover .portrait-hover {
+    opacity: 1;
 }
 
 .about-icons {
@@ -214,6 +240,7 @@ a:visited {
     .about-portrait {
         max-width: 350px;
         margin: 0 auto;
+        align-items: center; /* Center buttons on mobile */
     }
 }
 /* Responsive for About page */
@@ -568,4 +595,3 @@ a:visited {
     }
 }
 }
-
