@@ -1,7 +1,7 @@
 // Array of quotes - add as many as you like!
 const quotes = [
     "Dizzy my future, silly my way.",
-    "High-quality, grade-A, prime-cut, pure, New Zealand bullshit.",
+    "High-quality, grade-A, prime-cut, 100% pure, New Zealand bullshit.",
     "Trying is the first step towards failure.",
     "Butter the toast. Eat the toast. Shit the toast. God, life's relentless.",
     "Keep it foolish.",
