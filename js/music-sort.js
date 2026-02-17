@@ -1,3 +1,14 @@
+// ── Fade-in images on load ──────────────────────────────────────────
+document.querySelectorAll('.music-grid img').forEach(img => {
+    if (img.complete) {
+        img.classList.add('loaded');
+    } else {
+        img.addEventListener('load', () => img.classList.add('loaded'));
+        img.addEventListener('error', () => img.classList.add('loaded'));
+    }
+});
+
+// ── Music sorting ───────────────────────────────────────────────────
 // Parse alt text format: "Artist Name, Album Name, Year"
 function parseAlbumData(altText) {
     const parts = altText.split(',').map(s => s.trim());
