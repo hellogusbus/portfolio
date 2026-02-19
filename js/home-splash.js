@@ -6,8 +6,6 @@ const quotes = [
     "Now 100% vermin free.",
     "Keep it foolish.",
     "Defined in more than 160 characters.",
-    "Dollar value lost since 1913: 96.23%",
-    "National debt: +$100,000 p/sec.",
     // More quotes here
 ];
 
