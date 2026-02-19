@@ -3,9 +3,10 @@ const quotes = [
     "Dizzy my future, silly my way.",
     "High-quality, grade-A, prime-cut, 100% pure, New Zealand bullshit.",
     "Trying is the first step towards failure.",
-    "Butter the toast. Eat the toast. Shit the toast. God, life's relentless.",
+    "100% vermin free",
     "Keep it foolish.",
     "Defined in more than 160 characters.",
+    "Definitely not a spook.",
     // More quotes here
 ];
 
