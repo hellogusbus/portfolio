@@ -1,7 +1,7 @@
 // Array of quotes - add as many as you like!
 const quotes = [
     "Dizzy my future, silly my way.",
-    "High-quality, grade-A, prime-cut, 100% pure, New Zealand BS.",
+    "High-quality, A-grade, prime-cut, 100% pure, New Zealand BS.",
     "Trying is the first step towards failure.",
     "Now 100% vermin free.",
     "Keep it foolish.",
