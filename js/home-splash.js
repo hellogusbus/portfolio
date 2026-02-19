@@ -1,12 +1,14 @@
 // Array of quotes - add as many as you like!
 const quotes = [
     "Dizzy my future, silly my way.",
-    "High-quality, grade-A, prime-cut, 100% pure, New Zealand bullshit.",
+    "High-quality, grade-A, prime-cut, 100% pure, New Zealand BS.",
     "Trying is the first step towards failure.",
-    "100% vermin free",
+    "Now 100% vermin free.",
     "Keep it foolish.",
     "Defined in more than 160 characters.",
-    "Definitely not a spook.",
+    "Dollar value lost since 1913: 96.23%",
+    "National debt: +$100,000 p/sec.",
+    "I can make you a thing",
     // More quotes here
 ];
 
