@@ -72,15 +72,27 @@
         const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
 
-        // Load saved display name
-        const savedName = localStorage.getItem('chatDisplayName');
-        if (savedName) {
-            displayNameInput.value = savedName;
+        // Admin mode check (hidden feature)
+        let isAdmin = false;
+        if (window.location.hash === '#admin') {
+            isAdmin = true;
+            displayNameInput.value = 'Angus';
+            displayNameInput.style.backgroundColor = '#fff3cd';
+        }
+
+        // Load saved display name (if not admin)
+        if (!isAdmin) {
+            const savedName = localStorage.getItem('chatDisplayName');
+            if (savedName) {
+                displayNameInput.value = savedName;
+            }
         }
 
         // Save display name
         displayNameInput.addEventListener('change', () => {
-            localStorage.setItem('chatDisplayName', displayNameInput.value);
+            if (!isAdmin) {
+                localStorage.setItem('chatDisplayName', displayNameInput.value);
+            }
         });
 
         // Send message
@@ -94,8 +106,8 @@
                 return;
             }
 
-            // Prevent using "Angus" (reserved)
-            if (name.toLowerCase() === 'angus') {
+            // Prevent using "Angus" (reserved) - unless admin mode
+            if (!isAdmin && name.toLowerCase() === 'angus') {
                 alert('Sorry, that name is reserved');
                 displayNameInput.value = '';
                 displayNameInput.focus();
