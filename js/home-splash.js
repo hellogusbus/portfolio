@@ -6,6 +6,7 @@ const quotes = [
     "Now 100% vermin free.",
     "Keep it foolish.",
     "Defined in more than 160 characters.",
+    "Not yet discovered in the Epstein files",
     // More quotes here
 ];
 
