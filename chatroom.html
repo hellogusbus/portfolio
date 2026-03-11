@@ -30,7 +30,7 @@
 
     <main class="chatroom-page">
         <h2>Chatroom</h2>
-        <p class="chatroom-intro">Welcome to my 00's style chatroom</p>
+        <p class="chatroom-intro">Leave a message for other visitors</p>
         
         <div class="chat-container">
             <div id="messages" class="messages-container"></div>
@@ -107,7 +107,7 @@
 
             // Prevent using "Angus" (reserved) - unless admin mode
             if (!isAdmin && name.toLowerCase() === 'angus') {
-                alert('Hey! That's my name! Choose another.');
+                alert('Sorry, that name is reserved');
                 displayNameInput.value = '';
                 displayNameInput.focus();
                 return;
