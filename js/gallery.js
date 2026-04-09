@@ -1,6 +1,6 @@
 // ── Fade-in images on load ──────────────────────────────────────────
 document.querySelectorAll('.gallery-item img').forEach(img => {
-    if (img.complete) {
+    if (img.complete && img.naturalWidth !== 0) {
         img.classList.add('loaded');
     } else {
         img.addEventListener('load', () => img.classList.add('loaded'));
