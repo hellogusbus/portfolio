@@ -86,9 +86,6 @@ function showImage(index, subIndex = 0) {
     } else {
         loadNewImage(subIndex);
     }
-    
-    currentIndex = index;
-    currentSubIndex = subIndex;
 }
 
 function loadNewImage(subIndex) {
