@@ -64,7 +64,7 @@ let currentImages = [];
 function showImage(index, subIndex = 0) {
     const item = galleryItems[index];
     const imagesData = item.getAttribute('data-images');
-    
+
     // Check if item has multiple images
     if (imagesData) {
         try {
@@ -75,7 +75,11 @@ function showImage(index, subIndex = 0) {
     } else {
         currentImages = [item.querySelector('img').src];
     }
-    
+
+    // Set index BEFORE setTimeout so loadNewImage reads the correct values
+    currentIndex = index;
+    currentSubIndex = subIndex;
+
     // Fade out current image
     const currentImg = imageContainer.querySelector('img');
     if (currentImg) {
@@ -89,25 +93,24 @@ function showImage(index, subIndex = 0) {
 }
 
 function loadNewImage(subIndex) {
-    // Show the specified sub-image
     const img = document.createElement('img');
     img.src = currentImages[subIndex];
     img.style.opacity = '0';
-    
+
     imageContainer.innerHTML = '';
     imageContainer.appendChild(img);
-    
+
     // Fade in new image
     setTimeout(() => {
         img.style.opacity = '1';
     }, 10);
-    
+
     // Update caption
     const item = galleryItems[currentIndex];
     const captionText = item.querySelector('img').getAttribute('data-caption');
     caption.textContent = captionText || '';
     caption.style.display = captionText ? 'block' : 'none';
-    
+
     // Update sub-navigation
     if (currentImages.length > 1) {
         subNav.style.display = 'flex';
@@ -120,10 +123,8 @@ function loadNewImage(subIndex) {
 // Open lightbox
 function openLightbox(index) {
     showImage(index, 0);
-    
-    // Show lightbox with fade
     lightbox.style.display = 'flex';
-    lightbox.offsetHeight;
+    lightbox.offsetHeight; // force reflow for transition
     lightbox.classList.add('active');
 }
 
@@ -170,8 +171,7 @@ function prevSubImage(e) {
 
 // Add click listeners to all gallery images
 galleryItems.forEach((item, index) => {
-    const img = item.querySelector('img');
-    img.addEventListener('click', () => {
+    item.querySelector('img').addEventListener('click', () => {
         openLightbox(index);
     });
 });
@@ -191,18 +191,16 @@ lightbox.addEventListener('click', (e) => {
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;
-    
+
     if (e.key === 'Escape') {
         closeLightbox();
     } else if (e.key === 'ArrowRight') {
-        // If multiple images in current item, navigate sub-images first
         if (currentImages.length > 1 && currentSubIndex < currentImages.length - 1) {
             nextSubImage(e);
         } else {
             nextImage(e);
         }
     } else if (e.key === 'ArrowLeft') {
-        // If multiple images in current item, navigate sub-images first
         if (currentImages.length > 1 && currentSubIndex > 0) {
             prevSubImage(e);
         } else {
@@ -216,17 +214,10 @@ const backToTopBtn = document.getElementById('backToTop');
 
 if (backToTopBtn) {
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
+        backToTopBtn.classList.toggle('visible', window.pageYOffset > 300);
     });
 
     backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
