@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angus McBryde — CV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: white;
+            color: #333;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        a:visited {
+            color: #000;
+        }
+
+        /* ── Header ── */
+        header {
+            padding: 15px 40px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        header h1 a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #333;
+        }
+
+        /* ── CV Layout ── */
+        .cv-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 40px 100px;
+        }
+
+        /* ── Hero ── */
+        .cv-hero {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-bottom: 80px;
+        }
+
+        .cv-portrait {
+            position: relative;
+        }
+
+        .cv-portrait img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(10%);
+            transition: filter 0.4s ease;
+        }
+
+        .cv-portrait:hover img {
+            filter: grayscale(0%);
+        }
+
+        .cv-intro {
+            padding-top: 8px;
+        }
+
+        .cv-intro .name {
+            font-size: 52px;
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+            line-height: 1.1;
+        }
+
+        .cv-intro .tagline {
+            font-size: 13px;
+            color: #999;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .cv-intro .bio {
+            font-size: 16px;
+            line-height: 1.75;
+            color: #444;
+            margin-bottom: 32px;
+            max-width: 560px;
+        }
+
+        .cv-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .cv-contact a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cv-contact a:hover {
+            color: #333;
+            opacity: 1;
+        }
+
+        .cv-contact .dot {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 0.5px;
+            margin-top: 24px;
+        }
+
+        .availability .dot-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4caf50;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* ── Section heading ── */
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #bbb;
+            margin-bottom: 32px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* ── Highlights ── */
+        .highlights-section {
+            margin-bottom: 80px;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .highlight-card {
+            padding: 28px;
+            border: 1px solid #eee;
+            transition: border-color 0.3s, transform 0.3s;
+            cursor: default;
+        }
+
+        .highlight-card:hover {
+            border-color: #ccc;
+            transform: translateY(-2px);
+        }
+
+        .highlight-card .org {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #bbb;
+            margin-bottom: 10px;
+        }
+
+        .highlight-card .role {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .highlight-card p {
+            font-size: 14px;
+            line-height: 1.65;
+            color: #666;
+        }
+
+        /* ── Strengths ── */
+        .strengths-section {
+            margin-bottom: 80px;
+        }
+
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .strength-item {
+            padding: 28px 32px 28px 0;
+            border-right: 1px solid #eee;
+        }
+
+        .strength-item:last-child {
+            border-right: none;
+            padding-right: 0;
+            padding-left: 32px;
+        }
+
+        .strength-item:nth-child(2) {
+            padding-left: 32px;
+        }
+
+        .strength-item h3 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .strength-item p {
+            font-size: 14px;
+            line-height: 1.65;
+            color: #666;
+        }
+
+        /* ── Timeline / Work History ── */
+        .work-section {
+            margin-bottom: 80px;
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #eee;
+        }
+
+        /* ── Scroll fade-in (applied to all reveal targets) ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item {
+            padding: 0 0 48px 32px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .timeline-item:hover::before {
+            background: #333;
+            border-color: #333;
+        }
+
+        .timeline-item .period {
+            font-size: 12px;
+            color: #bbb;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .timeline-item .role-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .timeline-item .org-name {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .timeline-item .description {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #555;
+            max-width: 640px;
+        }
+
+        /* ── Skills tags ── */
+        .skills-section {
+            margin-bottom: 80px;
+        }
+
+        .skills-clusters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .skill-cluster h3 {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #bbb;
+            margin-bottom: 14px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            font-size: 13px;
+            color: #555;
+            padding: 5px 12px;
+            border: 1px solid #e0e0e0;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: #999;
+            color: #333;
+        }
+
+        /* ── Education ── */
+        .education-section {
+            margin-bottom: 80px;
+        }
+
+        .edu-block {
+            max-width: 640px;
+        }
+
+        .edu-block .degree {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .edu-block .field {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .edu-block .period-institution {
+            font-size: 13px;
+            color: #bbb;
+            margin-bottom: 16px;
+        }
+
+        .edu-block p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #666;
+        }
+
+        /* ── Download ── */
+        .download-section {
+            border-top: 1px solid #eee;
+            padding-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Helvetica', sans-serif;
+            font-size: 13px;
+            color: #333;
+            border: 1px solid #333;
+            padding: 10px 22px;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            background: #333;
+            color: white;
+            opacity: 1;
+        }
+
+        .download-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .location-tag {
+            font-size: 12px;
+            color: #bbb;
+            letter-spacing: 1px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .cv-hero {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .cv-portrait {
+                max-width: 240px;
+            }
+
+            .highlights-grid,
+            .strengths-grid,
+            .skills-clusters {
+                grid-template-columns: 1fr;
+            }
+
+            .strength-item {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding: 24px 0;
+            }
+
+            .strength-item:last-child {
+                border-bottom: none;
+                padding-left: 0;
+            }
+
+            .strength-item:nth-child(2) {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .cv-page {
+                padding: 40px 20px 80px;
+            }
+
+            .cv-intro .name {
+                font-size: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><a href="/">Angus McBryde</a></h1>
+    <nav>
+        <a href="/work">Work</a>
+        <a href="/music">Music</a>
+        <a href="/about">About</a>
+        <a href="/cv" class="active">CV</a>
+        <a href="/connect">Connect</a>
+    </nav>
+</header>
+
+<main class="cv-page">
+
+    <!-- Hero -->
+    <section class="cv-hero fade-up">
+        <div class="cv-portrait">
+            <img src="images/portrait.webp" alt="Angus McBryde" loading="eager">
+        </div>
+
+        <div class="cv-intro">
+            <p class="tagline">Arts &amp; Events Professional</p>
+            <h1 class="name">Angus<br>McBryde</h1>
+            <p class="bio">A multidisciplinary performing arts and events professional, thriving in dynamic environments by embracing diverse responsibilities — from strategic marketing and communications leadership to events logistics management — supported by strong visual identity and design experience.</p>
+
+            <div class="cv-contact">
+                <a href="mailto:hello.angus@pm.me">hello.angus@pm.me</a>
+                <span class="dot"></span>
+                <a href="tel:+447380248111">+44 7 380 248 111</a>
+                <span class="dot"></span>
+                <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                <span class="dot"></span>
+                <a href="/">Website</a>
+            </div>
+
+            <div class="availability">
+                <span class="dot-pulse"></span>
+                UK &nbsp;·&nbsp; AU &nbsp;·&nbsp; NZ eligible
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Highlights -->
+    <section class="highlights-section">
+        <p class="section-label fade-up">Career highlights</p>
+        <div class="highlights-grid">
+            <div class="highlight-card fade-up">
+                <p class="org">Band on the Wall</p>
+                <p class="role">Head of Marketing &amp; Communications</p>
+                <p>Rapidly assembling effective campaigns for national tours at short notice, driving strong ticket sales while adhering to budget constraints. Femi Kuti UK tours, Lady Blackbird shows, London African Gospel Choir.</p>
+            </div>
+            <div class="highlight-card fade-up">
+                <p class="org">NZ International Film Festival</p>
+                <p class="role">Events &amp; Logistics Manager</p>
+                <p>Recruited and managed 150 volunteers across multiple venues, organising VIP launches, world premieres, and panel discussions — from venue scouting to flawless execution.</p>
+            </div>
+            <div class="highlight-card fade-up">
+                <p class="org">Arcade Theatre Company</p>
+                <p class="role">Founding Trustee &amp; Creative Lead</p>
+                <p>Devised brand identity, logo, and website. Led marketing for eight productions, coordinated twelve Satellite Events, and co-established the flagship storytelling event.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Strengths -->
+    <section class="strengths-section">
+        <p class="section-label fade-up">Key strengths</p>
+        <div class="strengths-grid">
+            <div class="strength-item fade-up">
+                <h3>Multidisciplinary Expertise</h3>
+                <p>A foundation in graphic design and a decade in arts marketing, events, and logistics — blending creative and operational roles across festivals, venues, and freelance work. CRM, video editing, public relations.</p>
+            </div>
+            <div class="strength-item fade-up">
+                <h3>Self-Starter &amp; Adaptability</h3>
+                <p>Thrives in initiating and embracing diverse responsibilities, pivoting from head of marketing to logistics manager to graphic designer in high-pressure settings. Funding applications, tour management, workflow optimisation.</p>
+            </div>
+            <div class="strength-item fade-up">
+                <h3>Collaborative Leadership</h3>
+                <p>Fosters strong teams and partnerships through people-focused guidance, maintaining clear expectations on quality and deadlines. Emphasis on inclusivity, emotional awareness, and relationship-building in values-driven organisations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work History -->
+    <section class="work-section">
+        <p class="section-label fade-up">Selected work history</p>
+        <div class="timeline">
+
+            <div class="timeline-item fade-up">
+                <p class="period">2024 — Present</p>
+                <p class="role-title">Head of Marketing and Communications</p>
+                <p class="org-name">Band on the Wall</p>
+                <p class="description">Lead promotion of in-house and external events, developing and implementing marketing strategies while tracking success and managing the marketing budget. Oversee print and digital production, social media growth, press and PR activities, data analysis, audience development, and CRM enhancements. Line-manage the Digital Marketing Manager; write press releases; build media relationships; organise networking events; ensure GDPR compliance.</p>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <p class="period">2023</p>
+                <p class="role-title">Events and Logistics Manager</p>
+                <p class="org-name">NZ International Film Festival</p>
+                <p class="description">Recruited and managed venue staff and 150 volunteers, organising and troubleshooting shift allocations across five central city cinemas. Oversaw delivery of external events — including programme launches, Q&A sessions, workshops, discussions, masterclasses, and musical performances — while conducting venue risk assessments and hosting VIP guests.</p>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <p class="period">2022 — 2024</p>
+                <p class="role-title">Marketing Manager</p>
+                <p class="org-name">Auckland Arts Festival</p>
+                <p class="description">Populated and maintained the festival website; managed distribution of 60,000 print programmes; collaborated with the Head of Marketing &amp; Communications to refine strategy and messaging; oversaw workflows, deadlines, and deliveries. Assisted with design overflow including social media graphics and print/digital collateral; supported Education and Access &amp; Inclusion teams; designed a programme exhibition.</p>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <p class="period">2020 — 2021</p>
+                <p class="role-title">Head of Marketing and Communications</p>
+                <p class="org-name">NZ International Science Festival</p>
+                <p class="description">Managed a large marketing budget; produced all in-house design collateral; booked advertising; wrote and distributed press releases; arranged media opportunities; negotiated contractor agreements; and planned social media campaign rollout while pivoting quickly to virtual formats amid the 2020 pandemic.</p>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <p class="period">2018 — 2022</p>
+                <p class="role-title">Marketing Manager</p>
+                <p class="org-name">Dunedin Arts Festival</p>
+                <p class="description">Handled all graphic design output while fulfilling roles of marketing manager, publicist, and social media manager: created hero image, 60-page programme brochure, posters, collateral, ads, and website. Coordinated an eleven-week social media campaign with original content and secured national PR coverage.</p>
+            </div>
+
+            <div class="timeline-item fade-up">
+                <p class="period">2013 — 2015</p>
+                <p class="role-title">Graphic Designer</p>
+                <p class="org-name">Walsh and Beck</p>
+                <p class="description">Lead designer at a small full-service marketing and PR agency: created logos, print &amp; digital advertising, websites, and collateral for clients while guiding them through the design process. Managed client expectations and timelines; oversaw print runs; consulted with the Director on design, client relations, and future planning.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="skills-section">
+        <p class="section-label fade-up">Skills</p>
+        <div class="skills-clusters">
+            <div class="skill-cluster fade-up">
+                <h3>Marketing &amp; Comms</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Campaign Strategy</span>
+                    <span class="skill-tag">Press &amp; PR</span>
+                    <span class="skill-tag">Copywriting</span>
+                    <span class="skill-tag">Social Media</span>
+                    <span class="skill-tag">CRM</span>
+                    <span class="skill-tag">GDPR</span>
+                    <span class="skill-tag">Audience Development</span>
+                    <span class="skill-tag">Media Relations</span>
+                </div>
+            </div>
+            <div class="skill-cluster fade-up">
+                <h3>Events &amp; Logistics</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Events Production</span>
+                    <span class="skill-tag">Volunteer Management</span>
+                    <span class="skill-tag">Risk Assessment</span>
+                    <span class="skill-tag">Budget Management</span>
+                    <span class="skill-tag">VIP Hosting</span>
+                    <span class="skill-tag">Venue Liaison</span>
+                    <span class="skill-tag">Tour Management</span>
+                </div>
+            </div>
+            <div class="skill-cluster fade-up">
+                <h3>Design &amp; Production</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Graphic Design</span>
+                    <span class="skill-tag">Brand Identity</span>
+                    <span class="skill-tag">Print Production</span>
+                    <span class="skill-tag">Video Editing</span>
+                    <span class="skill-tag">Web Design</span>
+                    <span class="skill-tag">Adobe Suite</span>
+                    <span class="skill-tag">Digital Collateral</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section class="education-section">
+        <p class="section-label fade-up">Qualifications</p>
+        <div class="edu-block fade-up">
+            <p class="degree">Bachelor of Consumer and Applied Science</p>
+            <p class="field">Multidisciplinary Design Studies</p>
+            <p class="period-institution">University of Otago &nbsp;·&nbsp; 2008–2010</p>
+            <p>A multidisciplinary model blending design theory, history, studio practice, and hands-on projects in product design, industrial design, and communication design — emphasising sustainability, user-centred approaches, and cross-disciplinary collaboration.</p>
+        </div>
+    </section>
+
+    <!-- Download -->
+    <div class="download-section fade-up">
+        <a class="download-btn" href="McBryde_CV_2026.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+        </a>
+        <span class="location-tag">UK &nbsp;·&nbsp; AU &nbsp;·&nbsp; NZ</span>
+    </div>
+
+</main>
+
+<script>
+    const fadeEls = document.querySelectorAll('.fade-up');
+
+    // Immediately show hero (already in view on load)
+    const hero = document.querySelector('.cv-hero');
+    if (hero) {
+        requestAnimationFrame(() => {
+            setTimeout(() => hero.classList.add('visible'), 100);
+        });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        // Group entries that fire together and stagger them
+        const visible = entries.filter(e => e.isIntersecting);
+        visible.forEach((entry, i) => {
+            setTimeout(() => {
+                entry.target.classList.add('visible');
+            }, i * 80);
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    fadeEls.forEach(el => {
+        if (el !== hero) observer.observe(el);
+    });
+
+    // Respect reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        fadeEls.forEach(el => el.classList.add('visible'));
+    }
+</script>
+
+</body>
+</html>
