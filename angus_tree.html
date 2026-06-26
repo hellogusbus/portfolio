@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The McBryde Lattice — ancestral scan array</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#020407;
+    --void-deep:#000103;
+    --panel:#04141a;
+    --cyan:#6ff3ff;
+    --cyan-dim:#1d6b75;
+    --violet:#cd7bff;
+    --violet-dim:#5a2a7a;
+    --amber:#ffce54;
+    --teal:#7af0c9;
+    --grey:#5b6670;
+    --text:#d9f3f5;
+    --text-dim:#7fa3a8;
+    --line:rgba(111,243,255,0.28);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;background:var(--void-deep);overflow:hidden;font-family:'IBM Plex Mono',monospace;
+    -webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none;}
+  canvas{display:block;user-select:none;-webkit-user-select:none;}
+  input, textarea{-webkit-user-select:text;user-select:text;}
+  #app{position:relative;width:100%;height:100vh;}
+  #scene-container{position:absolute;inset:0;cursor:grab;outline:none;}
+  #scene-container.dragging{cursor:grabbing;}
+  #scene-container:focus-visible{box-shadow:inset 0 0 0 2px rgba(111,243,255,0.4);}
+
+  /* faint corner brackets framing the whole viewport, like a visor HUD edge */
+  .hud-corner{position:absolute;width:46px;height:46px;border:1.5px solid var(--cyan-dim);opacity:0.55;pointer-events:none;z-index:5;}
+  .hud-corner.tl{top:14px;left:14px;border-right:none;border-bottom:none;}
+  .hud-corner.tr{top:14px;right:14px;border-left:none;border-bottom:none;}
+  .hud-corner.bl{bottom:14px;left:14px;border-right:none;border-top:none;}
+  .hud-corner.br{bottom:14px;right:14px;border-left:none;border-top:none;}
+
+  /* ---------- generation navigator ---------- */
+  #genNav{
+    position:absolute;left:34px;top:50%;transform:translateY(-50%);z-index:30;
+    width:168px;padding:14px 0;display:flex;flex-direction:column;align-items:stretch;
+  }
+  #genNav .gn-title{
+    font-family:'Orbitron',sans-serif;color:var(--cyan);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;
+    text-align:center;margin-bottom:8px;
+  }
+  #genNav .gn-chev{
+    background:none;border:none;color:var(--text-dim);font-size:13px;cursor:pointer;padding:5px 0;text-align:center;
+  }
+  #genNav .gn-chev:hover{color:var(--cyan);}
+  #genNav .gn-list{display:flex;flex-direction:column;}
+  .gn-item{
+    display:flex;align-items:center;gap:9px;padding:5px 14px;cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.5px;color:var(--text-dim);
+    border-left:2px solid transparent;transition:color .15s, border-color .15s;
+  }
+  .gn-item .gn-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--cyan-dim);flex:none;transition:all .15s;}
+  .gn-item:hover{color:var(--text);}
+  .gn-item:hover .gn-dot{border-color:var(--cyan);}
+  .gn-item.active{color:var(--amber);border-left-color:var(--amber);}
+  .gn-item.active .gn-dot{background:var(--amber);border-color:var(--amber);box-shadow:0 0 6px var(--amber);}
+  @media (max-width:900px){ #genNav{display:none;} }
+
+
+  header{
+    position:absolute;top:0;left:0;right:0;z-index:30;
+    padding:26px 34px 14px;
+    display:flex;align-items:flex-start;justify-content:space-between;
+    pointer-events:none;
+  }
+  header .title-block{pointer-events:auto;}
+  h1{
+    font-family:'Orbitron',sans-serif;font-weight:700;
+    color:var(--text);font-size:21px;margin:0 0 6px;letter-spacing:2.5px;text-transform:uppercase;
+    text-shadow:0 0 14px rgba(111,243,255,0.55);
+  }
+  h1::before{content:'◇ ';color:var(--cyan);}
+  .subtitle{color:var(--text-dim);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;margin:0;
+    border-top:1px solid var(--line);padding-top:6px;display:inline-block;}
+
+  .panel{
+    pointer-events:auto;
+    background:linear-gradient(160deg, rgba(6,26,32,0.96), rgba(2,8,11,0.97));
+    border:1px solid var(--line);
+    clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+    position:relative;
+  }
+  .panel::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:0.5;
+    background:repeating-linear-gradient(0deg, rgba(111,243,255,0.05) 0px, rgba(111,243,255,0.05) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode:overlay;
+  }
+  .legend{padding:12px 16px;color:var(--text-dim);font-size:11px;line-height:1.75;max-width:235px;}
+  .legend .lg-title{color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-size:9.5px;margin-bottom:7px;font-family:'Orbitron',sans-serif;}
+  .legend .row{display:flex;align-items:center;gap:8px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;box-shadow:0 0 6px currentColor;}
+  .legend .note{margin-top:6px;color:var(--text-dim);opacity:0.8;}
+
+  /* ---------- controls ---------- */
+  #controls{
+    position:absolute;left:34px;bottom:26px;z-index:30;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .search-wrap{position:relative;}
+  #search{
+    width:230px;
+    background:rgba(4,18,22,0.9);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    padding:10px 12px;
+    clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px);
+    outline:none;
+  }
+  #search::placeholder{color:var(--text-dim);}
+  #search:focus{border-color:var(--cyan);}
+  #results{
+    position:absolute;bottom:48px;left:0;width:230px;
+    background:rgba(2,10,13,0.97);
+    border:1px solid var(--line);
+    max-height:220px;overflow-y:auto;
+    display:none;
+  }
+  #results div{padding:8px 12px;font-size:12px;color:var(--text-dim);cursor:pointer;border-bottom:1px solid rgba(111,243,255,0.1);}
+  #results div:hover{background:rgba(111,243,255,0.1);color:var(--text);}
+  .btn-row{display:flex;gap:8px;}
+  .ctrl-btn{
+    background:rgba(4,18,22,0.9);border:1px solid var(--line);color:var(--text-dim);
+    font-family:'Orbitron',sans-serif;font-size:10.5px;letter-spacing:1px;
+    padding:9px 13px;cursor:pointer;text-transform:uppercase;
+    clip-path:polygon(7px 0,100% 0,100% 100%,0 100%,0 7px);
+  }
+  .ctrl-btn:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 10px rgba(111,243,255,0.25) inset;}
+
+  #hint{
+    position:absolute;bottom:26px;right:34px;z-index:25;
+    color:var(--text-dim);font-size:10px;letter-spacing:0.4px;
+    background:rgba(4,18,22,0.55);border:1px solid var(--line);padding:9px 13px;
+    clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px);
+    max-width:250px;text-align:right;line-height:1.6;
+  }
+
+  /* ---------- labels projected from 3D ---------- */
+  #labelLayer{position:absolute;inset:0;pointer-events:none;z-index:8;overflow:hidden;}
+  .label3d{
+    position:absolute;top:0;left:0;will-change:transform;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;white-space:nowrap;
+    color:var(--text-dim);text-shadow:0 0 6px rgba(0,0,0,0.9);
+    letter-spacing:0.3px;transition:opacity .15s;
+  }
+  .label3d.root{color:var(--amber);font-weight:600;font-size:12px;}
+  .label3d.sel{color:var(--cyan);}
+  .label3d.ringsel{color:#fff;text-shadow:0 0 8px rgba(255,206,84,0.9),0 0 2px rgba(0,0,0,0.9);font-weight:600;transform-origin:left center;}
+  .ring-label3d.active{color:var(--amber);opacity:1;text-shadow:0 0 8px rgba(255,206,84,0.7);}
+  .ring-label3d{
+    position:absolute;top:0;left:0;will-change:transform;
+    font-family:'Orbitron',sans-serif;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;
+    color:#2fb8c9;text-shadow:0 0 6px rgba(0,0,0,0.9);opacity:0.7;white-space:nowrap;
+  }
+
+  /* ---------- profile / scan-log panel ---------- */
+  #card{
+    position:absolute;top:0;right:0;height:100%;width:390px;max-width:92vw;
+    background:linear-gradient(165deg, #03161c 0%, #010a0d 100%);
+    border-left:1px solid var(--line);
+    box-shadow:-30px 0 60px rgba(0,0,0,0.5);
+    transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    z-index:40;overflow-y:auto;padding:30px 26px 40px;color:var(--text);
+  }
+  #card.open{transform:translateX(0);}
+  #card::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:0.4;
+    background:repeating-linear-gradient(0deg, rgba(111,243,255,0.04) 0px, rgba(111,243,255,0.04) 1px, transparent 1px, transparent 3px);
+  }
+  #card .close{
+    position:absolute;top:18px;right:18px;background:none;border:1px solid var(--line);color:var(--text-dim);
+    font-size:16px;cursor:pointer;width:30px;height:30px;
+  }
+  #card .close:hover{color:var(--cyan);border-color:var(--cyan);}
+  #card .relation{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin:0 0 16px;}
+  #card h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:23px;margin:0 0 4px;line-height:1.25;letter-spacing:0.5px;color:var(--text);
+    text-shadow:0 0 12px rgba(111,243,255,0.35);}
+  #card .wtid{color:var(--text-dim);font-size:11px;margin-bottom:18px;}
+  #card .wtid a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted var(--cyan-dim);}
+  #card .wtid a:hover{color:var(--text);border-color:var(--text);}
+  .fact{border-top:1px solid rgba(111,243,255,0.15);padding:13px 0;}
+  .fact .k{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:5px;font-family:'Orbitron',sans-serif;}
+  .fact .v{font-size:13.5px;line-height:1.5;color:var(--text);}
+  .fact .v .place{color:var(--text-dim);font-size:12px;display:block;margin-top:2px;}
+  .bio{margin-top:16px;padding:14px;border:1px solid rgba(111,243,255,0.18);background:rgba(111,243,255,0.04);
+    font-size:13px;line-height:1.65;color:var(--text-dim);position:relative;
+    clip-path:polygon(10px 0,100% 0,100% 100%,0 100%,0 10px);}
+  .bio::before{content:'FIELD NOTE';position:absolute;top:-7px;left:10px;background:#03161c;padding:0 5px;
+    font-size:8px;letter-spacing:1.5px;color:var(--cyan-dim);font-family:'Orbitron',sans-serif;}
+  .flag{display:inline-block;font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;
+    padding:4px 9px;border:1px solid var(--line);color:var(--cyan);margin-top:10px;}
+  .kin-buttons{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;}
+  .kin-btn{background:rgba(111,243,255,0.06);border:1px solid var(--line);color:var(--text-dim);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;padding:7px 11px;cursor:pointer;
+    clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px);}
+  .kin-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  @media (max-width:720px){
+    header{padding:18px 16px 10px;flex-direction:column;gap:10px;}
+    .legend{max-width:none;}
+    #controls{left:16px;bottom:16px;}
+    #search{width:170px;}
+    #results{width:170px;}
+    #hint{display:none;}
+    .hud-corner{display:none;}
+    #card{width:100%;max-width:100%;top:auto;bottom:0;height:62vh;border-left:none;border-top:1px solid var(--line);transform:translateY(100%);}
+    #card.open{transform:translateY(0);}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="scene-container" tabindex="0"></div>
+  <div id="labelLayer"></div>
+  <div class="hud-corner tl"></div>
+  <div class="hud-corner tr"></div>
+  <div class="hud-corner bl"></div>
+  <div class="hud-corner br"></div>
+
+  <header>
+    <div class="title-block">
+      <h1>The McBryde Lattice</h1>
+      <p class="subtitle">10-gen ancestral scan · Otago terminus</p>
+    </div>
+    <div class="panel legend">
+      <div class="lg-title">Signal Key</div>
+      <div class="row"><span class="dot" style="background:#ffce54;color:#ffce54"></span> Angus — origin node</div>
+      <div class="row"><span class="dot" style="background:#7af0c9;color:#7af0c9"></span> Living branch</div>
+      <div class="row"><span class="dot" style="background:#6ff3ff;color:#6ff3ff"></span> Paternal vector</div>
+      <div class="row"><span class="dot" style="background:#cd7bff;color:#cd7bff"></span> Maternal vector</div>
+      <div class="row"><span class="dot" style="background:#5b6670;color:#5b6670"></span> Designation only</div>
+      <div class="note">Each ring = one generation back. Drag / WASD to orbit the lattice.</div>
+    </div>
+  </header>
+
+  <div id="genNav" class="panel"></div>
+
+  <div id="controls">
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Search a designation…" autocomplete="off">
+      <div id="results"></div>
+    </div>
+    <div class="btn-row">
+      <button class="ctrl-btn" id="resetBtn">Recenter</button>
+      <button class="ctrl-btn" id="zoomInBtn">+</button>
+      <button class="ctrl-btn" id="zoomOutBtn">−</button>
+    </div>
+  </div>
+
+  <div id="hint">WASD / drag — orbit the lattice<br>arrow keys — step between people<br>scroll or +/− — adjust range<br>click a node — open scan log</div>
+
+  <aside id="card">
+    <button class="close" id="closeCard">×</button>
+    <div id="cardBody"></div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ============================================================
+   SCENE SETUP
+   ============================================================ */
+const container = document.getElementById('scene-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x020407);
+scene.fog = new THREE.FogExp2(0x020407, 0.00075);
+
+const camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 1, 20000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+renderer.setSize(container.clientWidth, container.clientHeight);
+container.appendChild(renderer.domElement);
+
+window.addEventListener('resize', ()=>{
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+});
+
+// starfield
+(function(){
+  const n = 2200;
+  const positions = new Float32Array(n*3);
+  for(let i=0;i<n;i++){
+    const r = 2600 + Math.random()*4200;
+    const theta = Math.random()*Math.PI*2;
+    const phi = Math.acos((Math.random()*2)-1);
+    positions[i*3]   = r*Math.sin(phi)*Math.cos(theta);
+    positions[i*3+1] = r*Math.cos(phi);
+    positions[i*3+2] = r*Math.sin(phi)*Math.sin(theta);
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({ color: 0x4fb8c9, size: 2.1, sizeAttenuation: true, transparent: true, opacity: 0.5 });
+  scene.add(new THREE.Points(geo, mat));
+})();
+
+// faint reference grid, like a temple floor far below the lattice
+const grid = new THREE.GridHelper(5000, 50, 0x123640, 0x0a2128);
+grid.position.y = 1050;
+scene.add(grid);
+
+/* ============================================================
+   DATA — assembled from the WikiTree Fan Chart (10 gens) and
+   Super Tree exports for McBryde-70 (Angus McBryde).
+   Each ancestor stores father/mother ids (when known).
+   ============================================================ */
+const D = {};
+function add(id, o){ D[id] = Object.assign({id}, o); }
+
+// --- Gen 0 : the root and his generation ---
+add('McBryde-70', {name:'Angus McBryde', gender:'M', birth:'12 Apr 1990', birthPlace:'Dunedin, Otago, New Zealand', father:'McBryde-53', mother:'Hawkey-164', root:true});
+add('McBryde-52', {name:'Brendan McBryde', gender:'M', birth:'7 Oct 1991', birthPlace:'Dunedin, New Zealand', father:'McBryde-53', mother:'Hawkey-164', sibling:'McBryde-70', spouse:'spouse-uella'});
+add('spouse-uella', {name:'Uella McBryde', gender:'F', spouse:'McBryde-52'});
+add('Reid-O\'Reilly-1', {name:"Nadia Reid-O'Reilly", gender:'F', birth:'23 Aug 1991', birthPlace:'Devonport, Auckland, New Zealand', spouse:'McBryde-70'});
+add('McBryde-508', {name:'Elliotte McBryde', gender:'U', birth:'23 Jul 2021', birthPlace:'Dunedin, Otago, New Zealand', father:'McBryde-70', mother:"Reid-O'Reilly-1"});
+add('McBryde-Goldie', {name:'Goldie McBryde', gender:'U', birth:'2024', father:'McBryde-70', mother:"Reid-O'Reilly-1"});
+add('McBryde-Wilfred', {name:'Wilfred McBryde', gender:'U', birth:'2020', father:'McBryde-52', mother:'spouse-uella'});
+add('McBryde-Astrid', {name:'Astrid McBryde', gender:'U', birth:'2023', father:'McBryde-52', mother:'spouse-uella'});
+
+// --- Gen 1 : parents ---
+add('McBryde-53', {name:'Nicholas McBryde', gender:'M', birth:'20 Jan 1957', father:'McBryde-55', mother:'Curran-1100'});
+add('Hawkey-164', {name:'Rosemary Hawkey', gender:'F', birth:'16 Dec 1962', father:'Hawkey-160', mother:'Aspden-44'});
+
+// --- Gen 2 : grandparents ---
+add('McBryde-55', {name:'Ernest McBryde', gender:'M', birth:'1925', birthPlace:'New Zealand', death:'~2019', father:'McBryde-56', mother:'Dow-1525'});
+add('Curran-1100', {name:'Aileen Curran', gender:'F', birth:'1923', birthPlace:'New Zealand', death:'7 Mar 2008', father:'Curran-1104', mother:'Kinney-1574'});
+add('Hawkey-160', {name:'Graham Hawkey', gender:'M', birth:'9 Feb 1937', birthPlace:'New Zealand', death:'< 2015', father:'Hawkey-165', mother:'Rosevear-70'});
+add('Aspden-44', {name:'Margaret Nance Aspden', gender:'F', birth:'18 Oct 1936', birthPlace:'New Zealand', father:'Aspden-45', mother:'Tyer-31'});
+
+// --- Gen 3 : great-grandparents ---
+add('McBryde-56', {name:'Frederick McBryde', gender:'M', birth:'1883', death:'1951', father:'McBryde-58', mother:'Dumars-34'});
+add('Dow-1525', {name:'Edith Dow', gender:'F', birth:'1890', death:'26 Apr 1951', father:'Dow-1526', mother:'Cuddie-36'});
+add('Curran-1104', {name:'James Curran', gender:'M', death:'1949', deathPlace:'New Zealand'});
+add('Kinney-1574', {name:'Ellen Kinney', gender:'F', birth:'14 Feb 1887', birthPlace:'Hyde, Otago, New Zealand', death:'~16 Jul 1960', deathPlace:'Dunedin, New Zealand', father:'Kinney-2214', mother:'Prendergast-393'});
+add('Hawkey-165', {name:'Clarence Hawkey', gender:'M', birth:'~1916', death:'1992', father:'Hawkey-166', mother:'Rundle-200'});
+add('Rosevear-70', {name:'Estelle Rosevear', gender:'F', birth:'12 Sep 1912', death:'7 Aug 2001', deathPlace:'Waimate, New Zealand', father:'Rosevear-71', mother:"D'Amour-38"});
+add('Aspden-45', {name:'Alexander Aspden', gender:'M', birth:'3 Mar 1910', birthPlace:'Whangarei, New Zealand', death:'2 Aug 1977', father:'Aspden-46', mother:'Ferguson-7708'});
+add('Tyer-31', {name:'Marjorie Tyer', gender:'F', birth:'2 Jan 1912', birthPlace:'New Zealand', death:'14 Mar 2008', deathPlace:'New Zealand'});
+
+// --- Gen 4 : great-great-grandparents ---
+add('McBryde-58', {name:'John McBryde', gender:'M', birth:'15 Jul 1849', birthPlace:'Plymouth, Devon, England', death:'23 Dec 1886', deathPlace:'New Zealand', father:'McBryde-545', mother:'McKenzie-13574'});
+add('Dumars-34', {name:'Mathilde Dumars', gender:'F', birth:'1853', death:'6 Aug 1930', deathPlace:'Outram, Otago, New Zealand', father:'Dumars-21', mother:'Farrell-2012'});
+add('Dow-1526', {name:'Alexander Dow', gender:'M', birth:'1848', death:'12 May 1915', deathPlace:'Outram, Dunedin, Otago, New Zealand', father:'Dow-1531', mother:'Parkinson-2007'});
+add('Cuddie-36', {name:'Isabella Cuddie', gender:'F', birth:'1856', birthPlace:'New Zealand', death:'1931', deathPlace:'New Zealand', father:'Cuddie-44'});
+add('Kinney-2214', {name:'Patrick Kinney', gender:'M', birth:'19 Jun 1849', birthPlace:'Corkey, Loughguile, County Antrim, Ireland', death:'8 Sep 1941', deathPlace:'Saint Clair, Dunedin, Otago, New Zealand', father:'Kinney-2391', mother:'Dempsey-1883'});
+add('Prendergast-393', {name:'Johanna Prendergast', gender:'F', birth:'10 Mar 1858', birthPlace:'Market Square, Kilrush, County Clare, Ireland', death:'8 Dec 1936', deathPlace:'Dunedin, New Zealand', father:'Prendergast-395', mother:'Bourke-1289'});
+add('Hawkey-166', {name:'Frederick Hawkey', gender:'M', birth:'~1890', father:'Hawkey-167', mother:'Beswetherick-16'});
+add('Rundle-200', {name:'Jane Rundle', gender:'F', birth:'~1895'});
+add('Rosevear-71', {name:'William Rosevear', gender:'M', birth:'12 Dec 1880', birthPlace:'Cornwall, England', death:'18 Jan 1951', deathPlace:'Timaru, New Zealand'});
+add("D'Amour-38", {name:"Charlotte D'Amour", gender:'F', birth:'1882', death:'15 Aug 1962', deathPlace:'Timaru, Canterbury, New Zealand'});
+add('Aspden-46', {name:'John Aspden', gender:'M', birth:'1867', birthPlace:'Mauku, Auckland, New Zealand', death:'Jan 1936', deathPlace:'Northcote, Auckland, New Zealand'});
+add('Ferguson-7708', {name:'Catharine Ferguson', gender:'F', birth:'14 Dec 1867', death:'1946', deathPlace:'New Zealand', father:'Ferguson-7709', mother:'Fraser-3854'});
+
+// --- Gen 5 ---
+add('McBryde-545', {name:'John McBryde', gender:'M', birth:'1820'});
+add('McKenzie-13574', {name:'Rosanna McKenzie', gender:'F', birth:'1820'});
+add('Dumars-21', {name:'Adam Dumars', gender:'M', birth:'~1819', birthPlace:'Deal, Kent, England', death:'23 Sep 1886', deathPlace:'Omimi, Otago, New Zealand', father:'Dumars-35'});
+add('Farrell-2012', {name:'Margaret Farrell', gender:'F', birth:'1819', birthPlace:'Aghalurcher, County Fermanagh, Ireland', death:'20 Jun 1897', deathPlace:'Christchurch, Canterbury, New Zealand'});
+add('Dow-1531', {name:'James Dow', gender:'M', birth:'1819', birthPlace:'Kirkmichael, Perth and Kinross, Scotland', death:'27 Sep 1891', deathPlace:'Outram, Otago, New Zealand'});
+add('Parkinson-2007', {name:'Mary Parkinson', gender:'F', birth:'~1823', birthPlace:'Ayrshire, Scotland', death:'9 Jun 1889', deathPlace:'Mosgiel, Dunedin, New Zealand'});
+add('Cuddie-44', {name:'Thomas Cuddie', gender:'M', birth:'20 Jan 1821', birthPlace:'Maybole, Ayr, Scotland', death:'17 Dec 1871', deathPlace:'Saddle Hill, Dunedin, Otago, New Zealand', father:'Cuddie-82', mother:'Parkland-2'});
+add('Kinney-2391', {name:'John Kinney', gender:'M', birth:'~1818', birthPlace:'Altarichard, Loughguile, County Antrim, Ireland', death:'12 Jan 1894', deathPlace:'Hyde, Rock and Pillar, Otago, New Zealand', father:'Kinney-2410', mother:'Primrose-151'});
+add('Dempsey-1883', {name:'Catherine Dempsey', gender:'F', birth:'~1822', birthPlace:'Corkey, Loughguile, County Antrim, Ireland', death:'23 Feb 1864', deathPlace:'Coolnagopag, Ballycastle, Antrim, Ireland', father:'Dempsey-1884', mother:'Hyndman-228'});
+add('Prendergast-395', {name:'Michael Prendergast', gender:'M', birth:'~1828', birthPlace:'Killaloe, County Clare, Ireland', death:'~7 Aug 1906', deathPlace:'Hyde, Dunedin, Otago, New Zealand', father:'Prendergast-397', mother:'Dempsey-1885'});
+add('Bourke-1289', {name:'Ellen Bourke', gender:'F', birth:'~1830', birthPlace:'Kilrush, County Clare, Ireland', death:'5 Jan 1906', deathPlace:'Hyde, Dunedin, Otago, New Zealand'});
+add('Hawkey-167', {name:'Thomas Hawkey', gender:'M', birth:'1853', birthPlace:'Cornwall, England', death:'23 Nov 1922', deathPlace:'Timaru, Otago, New Zealand'});
+add('Beswetherick-16', {name:'Priscilla Beswetherick', gender:'F', birth:'1854', birthPlace:'St Austell, Cornwall, England', death:'1909', father:'Beswetherick-150', mother:'Rowe-10216'});
+add('Ferguson-7709', {name:'William Ferguson', gender:'M', birth:'14 Sep 1841', birthPlace:'Auckland, New Zealand', death:'8 Aug 1914'});
+add('Fraser-3854', {name:'Margaret Fraser', gender:'F', birth:'1846', birthPlace:'Woolwich, Kent, England', death:'31 May 1887', deathPlace:'Auckland, New Zealand'});
+
+// --- Gen 6 ---
+add('Dumars-35', {name:'Adam Dumars', gender:'M', birth:'1798', birthPlace:'County Tyrone, Ireland', death:'(date unknown)', deathPlace:'United States', father:'Dumars-31', mother:'Fell-645'});
+add('Noble-2728', {name:'Hannah Noble', gender:'F', birth:'~1800'});
+add('Cuddie-82', {name:'Alexander Cuddie', gender:'M', birth:'1791'});
+add('Parkland-2', {name:'Mary Parkland', gender:'F', birth:'1790'});
+add('Kinney-2410', {name:'John Kinney', gender:'M', birthPlace:'Loughguile, Antrim, Ireland', death:'16 Feb 1866', deathPlace:'Altarichard, Loughguile, Antrim, Ireland'});
+add('Primrose-151', {name:'Jane Primrose', gender:'F', birth:'~1791', death:'19 Jan 1878', deathPlace:'Windsor, Prahran, Victoria, Australia', father:'Primrose-152', mother:'Coulter-1495'});
+add('Dempsey-1884', {name:'Patrick Dempsey', gender:'M', birth:'~1775', birthPlace:'Antrim, Ireland', death:'12 Oct 1854', deathPlace:'Loughguile, Antrim, Ireland'});
+add('Hyndman-228', {name:'Margaret Hyndman', gender:'F', birth:'< 1800', death:'> 1866'});
+add('Prendergast-397', {name:'William Prendergast', gender:'M', birth:'< 1808', death:'> 1828'});
+add('Dempsey-1885', {name:'Mave Dempsey', gender:'F', birth:'~1784', death:'10 Oct 1867', deathPlace:'Corkey, Antrim, Ireland'});
+add('Beswetherick-150', {name:'William Beswetherick', gender:'M', birth:'< 6 Jun 1830', birthPlace:'Roche, Cornwall, England', death:'May 1896', deathPlace:'St Austell, Cornwall, England', father:'Beswetherick-71', mother:'Vague-73'});
+add('Rowe-10216', {name:'Alice Rowe', gender:'F', birth:'< 9 Dec 1827', birthPlace:'Luxulyan, Cornwall, England', death:'Apr 1881', deathPlace:'St Austell, Cornwall, England'});
+
+// --- Gen 7 ---
+add('Dumars-31', {name:'Timothy Dumars', gender:'M', birth:'~1777', birthPlace:'Ireland', death:'2 Jun 1852', deathPlace:'Delaware Township, Mercer County, Pennsylvania, USA', father:'Dumars-75'});
+add('Fell-645', {name:'Mary Fell', gender:'F', birth:'14 Jun 1782', birthPlace:'Bucks County, Pennsylvania, USA', death:'3 Jan 1866', deathPlace:'Mercer County, Pennsylvania, USA', father:'Fell-646', mother:'Anderson-26477'});
+add('Primrose-152', {name:'William Primrose', gender:'M', birth:'~1765'});
+add('Coulter-1495', {name:'Catherine Coulter', gender:'F', birth:'~1767'});
+add('Beswetherick-71', {name:'Anthony Beswetherick', gender:'M', birth:'< 19 Jan 1796', birthPlace:'Luxulyan, Cornwall, England', death:'Nov 1830', deathPlace:'Cornwall, England', father:'Beswetherick-66', mother:'Cock-1232'});
+add('Vague-73', {name:'Jennifer Vague', gender:'F', birth:'< 6 Aug 1797', birthPlace:'Lanivet, Cornwall, England', death:'Oct 1851', deathPlace:'Roche, Cornwall, England'});
+
+// --- Gen 8 ---
+add('Dumars-75', {name:'Timothy Dumars', gender:'M'});
+add('Fell-646', {name:'William Fell', gender:'M', father:'leaf-johnfell', mother:'leaf-elizabethhartley'});
+add('Anderson-26477', {name:'Agnes Anderson', gender:'F'});
+add('Beswetherick-66', {name:'Henry Beswetherick', gender:'M', father:'leaf-henryboswarthick', mother:'leaf-elizabethnichols'});
+add('Cock-1232', {name:'Mary Cock', gender:'F', father:'leaf-anthonycock', mother:'leaf-marydavy'});
+
+// --- Gen 9 : names only, no surviving dates ---
+add('leaf-johnfell', {name:'John Fell', gender:'M'});
+add('leaf-elizabethhartley', {name:'Elizabeth Hartley', gender:'F'});
+add('leaf-henryboswarthick', {name:'Henry Boswarthick', gender:'M'});
+add('leaf-elizabethnichols', {name:'Elizabeth Nichols', gender:'F'});
+add('leaf-anthonycock', {name:'Anthony Cock', gender:'M'});
+add('leaf-marydavy', {name:'Mary Davy', gender:'F'});
+/* ============================================================
+   LAYOUT — an ascending spiral of rings, one per generation.
+   Ancestors recede upward into the past; the living branch
+   descends below the origin node.
+   ============================================================ */
+const HEIGHT_STEP = 105;
+const ARC_START = -75, ARC_END = 255; // leaves a gap in the azimuth for the living branch
+
+// rings start tight around Nicholas & Rosemary (gen1) and widen faster each generation
+// further back, since each generation has roughly twice as many people to hold.
+function ringRadius(gen){
+  return gen === 0 ? 0 : 95*gen + 16*gen*gen;
+}
+
+function assignPositions(id, a0, a1, gen, path){
+  const p = D[id];
+  if(!p) return;
+  p.gen = gen;
+  p.theta = (a0 + a1) / 2 * Math.PI/180;
+  const r = ringRadius(gen);
+  p.x = r * Math.cos(p.theta);
+  p.z = r * Math.sin(p.theta);
+  p.y = gen * HEIGHT_STEP;
+  p.pathFromRoot = path.concat(id);
+  const mid = (a0 + a1) / 2;
+  if(p.father) assignPositions(p.father, a0, mid, gen+1, p.pathFromRoot);
+  if(p.mother) assignPositions(p.mother, mid, a1, gen+1, p.pathFromRoot);
+}
+assignPositions('McBryde-70', ARC_START, ARC_END, 0, []);
+
+// fixed positions for the living branch — two family clusters in the reserved southern gap
+D['McBryde-52'].x = 110;  D['McBryde-52'].z = -150; D['McBryde-52'].y = -95;  D['McBryde-52'].gen = 0;
+D['spouse-uella'].x = 200; D['spouse-uella'].z = -190; D['spouse-uella'].y = -95; D['spouse-uella'].gen = 0;
+D['McBryde-Wilfred'].x = 130; D['McBryde-Wilfred'].z = -255; D['McBryde-Wilfred'].y = -200; D['McBryde-Wilfred'].gen = -1;
+D['McBryde-Astrid'].x = 210; D['McBryde-Astrid'].z = -280; D['McBryde-Astrid'].y = -200; D['McBryde-Astrid'].gen = -1;
+
+D["Reid-O'Reilly-1"].x = -110; D["Reid-O'Reilly-1"].z = -150; D["Reid-O'Reilly-1"].y = -95; D["Reid-O'Reilly-1"].gen = 0;
+D['McBryde-508'].x = -130; D['McBryde-508'].z = -255; D['McBryde-508'].y = -200; D['McBryde-508'].gen = -1;
+D['McBryde-Goldie'].x = -210; D['McBryde-Goldie'].z = -280; D['McBryde-Goldie'].y = -200; D['McBryde-Goldie'].gen = -1;
+
+const GEN_NAMES = ['You are here','Parents','Grandparents','Great-grandparents','2× great-grandparents',
+  '3× great-grandparents','4× great-grandparents','5× great-grandparents','6× great-grandparents','7× great-grandparents'];
+function relationLabel(p){
+  if(p.root) return 'The root of this chart';
+  if(p.sibling) return 'Sibling';
+  if(p.id === "Reid-O'Reilly-1") return "Angus's wife";
+  if(p.id === 'spouse-uella') return "Brendan's wife";
+  if(p.id === 'McBryde-508' || p.id === 'McBryde-Goldie') return "Angus & Nadia's child";
+  if(p.id === 'McBryde-Wilfred' || p.id === 'McBryde-Astrid') return "Brendan & Uella's child";
+  const g = p.gen;
+  if(g === 1) return p.gender === 'M' ? 'Father' : 'Mother';
+  let greats = g - 2;
+  let base = p.gender === 'M' ? 'grandfather' : (p.gender==='F' ? 'grandmother' : 'grandparent');
+  let prefix;
+  if(greats <= 0) prefix = '';
+  else if(greats <= 3) prefix = 'great-'.repeat(greats);
+  else prefix = greats + '×-great-';
+  const side = p.pathFromRoot[1] === 'McBryde-53' ? 'paternal' : 'maternal';
+  return `${prefix}${base} — ${side} line`.replace(/^./, c => c.toUpperCase());
+}
+
+function countryOf(place){
+  if(!place) return null;
+  const s = place.toLowerCase();
+  if(s.includes('zealand')) return 'New Zealand';
+  if(s.includes('cornwall') || s.includes('england') || s.includes('kent') || s.includes('devon')) return 'England';
+  if(s.includes('scotland') || s.includes('ayr') || s.includes('perth')) return 'Scotland';
+  if(s.includes('ireland') || s.includes('antrim') || s.includes('clare') || s.includes('fermanagh') || s.includes('tyrone')) return 'Ireland';
+  if(s.includes('pennsylvania') || s.includes('united states')) return 'United States';
+  if(s.includes('australia') || s.includes('victoria')) return 'Australia';
+  return null;
+}
+
+function makeBio(p){
+  if(p.root) return `Born in ${p.birthPlace}, Angus stands at the confluence of every line on this chart — Irish, Scottish, English, Cornish and Pennsylvanian threads, all of them eventually settling in Otago.`;
+  if(p.sibling) return `Angus's brother, and the head of the second living branch on this chart, with Uella and their children Wilfred and Astrid.`;
+  if(p.id === "Reid-O'Reilly-1") return `Married into the McBryde family as Angus's wife; their children Elliotte and Goldie carry the line forward.`;
+  if(p.id === 'spouse-uella') return `Married into the McBryde family as Brendan's wife; their children Wilfred and Astrid carry his branch forward.`;
+  if(p.id === 'McBryde-508' || p.id === 'McBryde-Goldie') return `One of Angus and Nadia's children — the newest names on the chart, still writing their own chapter.`;
+  if(p.id === 'McBryde-Wilfred' || p.id === 'McBryde-Astrid') return `One of Brendan and Uella's children — the newest names on this branch of the chart.`;
+
+  const bC = countryOf(p.birthPlace), dC = countryOf(p.deathPlace);
+  const hasDates = p.birth || p.death;
+  const knowsParents = p.father || p.mother;
+
+  if(bC && dC && bC !== dC){
+    return `Born in ${p.birthPlace}, ${p.name.split(' ')[0]} eventually settled — and died — in ${p.deathPlace}, part of the long current of ${bC} families who rebuilt their lives on the far side of the world.`;
+  }
+  if(bC && !dC && bC !== 'New Zealand'){
+    return `Born in ${p.birthPlace}. Like many on this branch, the family's trail leads from ${bC} toward Otago, though the record falls quiet after that.`;
+  }
+  if(p.birthPlace && p.birthPlace.toLowerCase().includes('zealand') && p.deathPlace){
+    return `Lived out a life rooted in New Zealand, born in ${p.birthPlace} and recorded at death in ${p.deathPlace}.`;
+  }
+  if(hasDates && knowsParents){
+    return `One link in the chain between the Old World and Otago — the dates survive, even where the fuller story doesn't.`;
+  }
+  if(hasDates && !knowsParents){
+    return `A name and a date is nearly all that survives of this generation; their own parents are lost to the record.`;
+  }
+  return `This far back, only a name remains in the family's papers — no dates, no parents, just a place at the edge of the chart.`;
+}
+
+/* ============================================================
+   NODE + EDGE RENDERING
+   ============================================================ */
+function colorFor(p){
+  if(p.root) return 0xffce54;
+  const LIVING_BRANCH = ['McBryde-52','spouse-uella',"Reid-O'Reilly-1",'McBryde-508','McBryde-Goldie','McBryde-Wilfred','McBryde-Astrid'];
+  if(LIVING_BRANCH.includes(p.id)) return 0x7af0c9;
+  const hasData = !!(p.birth || p.death);
+  if(!hasData) return 0x5b6670;
+  const sideKey = p.pathFromRoot ? p.pathFromRoot[1] : null;
+  return sideKey === 'McBryde-53' ? 0x6ff3ff : 0xcd7bff;
+}
+
+const latticeRoot = new THREE.Group();
+scene.add(latticeRoot);
+
+// --- generation guide rings, merged into a single draw call ---
+const ringSegPositions = [];
+for(let g=1; g<=9; g++){
+  const r = ringRadius(g), y = g*HEIGHT_STEP, segs=96;
+  for(let i=0;i<segs;i++){
+    const t0=(i/segs)*Math.PI*2, t1=((i+1)/segs)*Math.PI*2;
+    ringSegPositions.push(r*Math.cos(t0), y, r*Math.sin(t0), r*Math.cos(t1), y, r*Math.sin(t1));
+  }
+}
+const ringGeo = new THREE.BufferGeometry();
+ringGeo.setAttribute('position', new THREE.Float32BufferAttribute(ringSegPositions, 3));
+latticeRoot.add(new THREE.LineSegments(ringGeo, new THREE.LineBasicMaterial({ color:0x2fb8c9, transparent:true, opacity:0.4, fog:false })));
+
+// a single bright ring that jumps to whichever generation the navigator has focused
+const activeRingMat = new THREE.LineBasicMaterial({ color:0xffce54, transparent:true, opacity:0.85, fog:false, depthTest:false });
+const activeRingLine = new THREE.LineLoop(new THREE.BufferGeometry(), activeRingMat);
+activeRingLine.visible = false;
+scene.add(activeRingLine);
+function setActiveRing(gen){
+  if(!gen || gen <= 0){ activeRingLine.visible = false; return; }
+  const r = ringRadius(gen), y = gen*HEIGHT_STEP, segs=96, pts=[];
+  for(let i=0;i<=segs;i++){ const t=(i/segs)*Math.PI*2; pts.push(new THREE.Vector3(r*Math.cos(t), y, r*Math.sin(t))); }
+  activeRingLine.geometry.dispose();
+  activeRingLine.geometry = new THREE.BufferGeometry().setFromPoints(pts);
+  activeRingLine.visible = true;
+}
+
+// --- nodes, as three InstancedMeshes (wireframe shell / glow core / invisible pick target) ---
+const nodeIds = Object.values(D).map(p=>p.id);
+const N = nodeIds.length;
+const idByIndex = nodeIds.slice();
+const indexById = {};
+nodeIds.forEach((id,i)=> indexById[id]=i);
+
+function baseRadiusFor(p){ return p.root ? 17 : Math.max(4.2, 13 - (p.gen||0)*0.85); }
+
+const wireMesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,0), new THREE.MeshBasicMaterial({ wireframe:true, transparent:true, opacity:0.85 }), N);
+const coreMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1,8,8), new THREE.MeshBasicMaterial({ transparent:true, opacity:0.5, blending:THREE.AdditiveBlending, depthWrite:false }), N);
+const hitMesh  = new THREE.InstancedMesh(new THREE.SphereGeometry(1,8,8), new THREE.MeshBasicMaterial({ visible:false }), N);
+
+const _dummy = new THREE.Object3D();
+nodeIds.forEach((id,i)=>{
+  const p = D[id];
+  const baseR = baseRadiusFor(p);
+  const color = new THREE.Color(colorFor(p));
+
+  _dummy.position.set(p.x,p.y,p.z);
+  _dummy.scale.setScalar(baseR);
+  _dummy.updateMatrix();
+  wireMesh.setMatrixAt(i, _dummy.matrix);
+  wireMesh.setColorAt(i, color);
+
+  _dummy.scale.setScalar(baseR*0.4);
+  _dummy.updateMatrix();
+  coreMesh.setMatrixAt(i, _dummy.matrix);
+  coreMesh.setColorAt(i, color);
+
+  _dummy.scale.setScalar(Math.max(baseR*2.0, 11));
+  _dummy.updateMatrix();
+  hitMesh.setMatrixAt(i, _dummy.matrix);
+});
+wireMesh.instanceMatrix.needsUpdate = true;
+coreMesh.instanceMatrix.needsUpdate = true;
+hitMesh.instanceMatrix.needsUpdate = true;
+if(wireMesh.instanceColor) wireMesh.instanceColor.needsUpdate = true;
+if(coreMesh.instanceColor) coreMesh.instanceColor.needsUpdate = true;
+latticeRoot.add(wireMesh, coreMesh, hitMesh);
+const raycastTargets = [hitMesh];
+
+// the selected node's wireframe pops slightly larger — cheap per-instance feedback,
+// no need to touch materials or loop over every node
+let selectedIndex = -1;
+function setSelectedVisual(id){
+  if(selectedIndex > -1){
+    const prevId = idByIndex[selectedIndex];
+    const pp = D[prevId];
+    _dummy.position.set(pp.x,pp.y,pp.z); _dummy.scale.setScalar(baseRadiusFor(pp)); _dummy.updateMatrix();
+    wireMesh.setMatrixAt(selectedIndex, _dummy.matrix);
+  }
+  const i = indexById[id];
+  const p = D[id];
+  _dummy.position.set(p.x,p.y,p.z); _dummy.scale.setScalar(baseRadiusFor(p)*1.5); _dummy.updateMatrix();
+  wireMesh.setMatrixAt(i, _dummy.matrix);
+  wireMesh.instanceMatrix.needsUpdate = true;
+  selectedIndex = i;
+}
+
+// --- edges, merged into one static LineSegments + one small dynamic highlight line ---
+const edgePositions = [], edgeColors = [];
+function pushEdge(aId, bId, colorHex){
+  const a = D[aId], b = D[bId];
+  if(!a || !b) return;
+  const c = new THREE.Color(colorHex);
+  edgePositions.push(a.x,a.y,a.z, b.x,b.y,b.z);
+  edgeColors.push(c.r,c.g,c.b, c.r,c.g,c.b);
+}
+Object.values(D).forEach(p=>{
+  ['father','mother'].forEach(role=>{
+    if(p[role] && D[p[role]]) pushEdge(p.id, p[role], colorFor(D[p[role]]));
+  });
+});
+pushEdge('McBryde-70',"Reid-O'Reilly-1",0x7af0c9);
+pushEdge('McBryde-52','spouse-uella',0x7af0c9);
+
+const edgeGeo = new THREE.BufferGeometry();
+edgeGeo.setAttribute('position', new THREE.Float32BufferAttribute(edgePositions,3));
+edgeGeo.setAttribute('color', new THREE.Float32BufferAttribute(edgeColors,3));
+latticeRoot.add(new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ vertexColors:true, transparent:true, opacity:0.46 })));
+
+const highlightLine = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color:0xffce54, transparent:true, opacity:1, depthTest:false }));
+highlightLine.frustumCulled = false;
+scene.add(highlightLine);
+function setHighlightPath(id){
+  const p = D[id];
+  const path = p.pathFromRoot || [id];
+  const pts = [];
+  for(let i=0;i<path.length-1;i++){
+    const a = D[path[i]], b = D[path[i+1]];
+    pts.push(a.x,a.y,a.z, b.x,b.y,b.z);
+  }
+  highlightLine.geometry.dispose();
+  highlightLine.geometry = new THREE.BufferGeometry();
+  highlightLine.geometry.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(pts), 3));
+  highlightLine.visible = pts.length > 0;
+}
+function clearHighlight(){ highlightLine.visible = false; }
+
+/* ============================================================
+   LOCK-ON RETICLE — corner brackets + spinning ring, Metroid-style
+   ============================================================ */
+function makeBracketTexture(){
+  const size=256, cv=document.createElement('canvas'); cv.width=cv.height=size;
+  const ctx=cv.getContext('2d');
+  ctx.strokeStyle='#6ff3ff'; ctx.lineWidth=9; ctx.lineCap='round';
+  const m=30, L=44;
+  function corner(x,y,dx,dy){ ctx.beginPath(); ctx.moveTo(x, y+dy*L); ctx.lineTo(x,y); ctx.lineTo(x+dx*L,y); ctx.stroke(); }
+  corner(m,m,1,1); corner(size-m,m,-1,1); corner(m,size-m,1,-1); corner(size-m,size-m,-1,-1);
+  return new THREE.CanvasTexture(cv);
+}
+function makeRingTexture(){
+  const size=256, cv=document.createElement('canvas'); cv.width=cv.height=size;
+  const ctx=cv.getContext('2d');
+  ctx.strokeStyle='rgba(255,206,84,0.9)'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.arc(size/2,size/2,size/2-14,0,Math.PI*1.4); ctx.stroke();
+  ctx.beginPath(); ctx.arc(size/2,size/2,size/2-26,Math.PI*0.25,Math.PI*1.05); ctx.stroke();
+  return new THREE.CanvasTexture(cv);
+}
+const bracketSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeBracketTexture(), transparent:true, depthTest:false, opacity:0.95 }));
+const ringSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeRingTexture(), transparent:true, depthTest:false, opacity:0.9 }));
+bracketSprite.visible = false; ringSprite.visible = false;
+scene.add(bracketSprite, ringSprite);
+
+function updateReticle(){
+  const p = D[selectedId];
+  if(!p){ bracketSprite.visible=false; ringSprite.visible=false; return; }
+  bracketSprite.visible = true; ringSprite.visible = true;
+  bracketSprite.position.set(p.x,p.y,p.z);
+  ringSprite.position.set(p.x,p.y,p.z);
+  ringSprite.material.rotation += 0.012;
+  const dist = camera.position.distanceTo(bracketSprite.position);
+  const scale = Math.max(20, dist*0.045);
+  bracketSprite.scale.set(scale,scale,1);
+  ringSprite.scale.set(scale*1.35,scale*1.35,1);
+}
+
+/* ============================================================
+   ORBIT CAMERA
+   ============================================================ */
+const cam = {
+  theta: 0.9, phi: 1.15, radius: 1050,
+  thetaGoal: 0.9, phiGoal: 1.15, radiusGoal: 1050,
+  target: new THREE.Vector3(0,40,0),
+  targetGoal: new THREE.Vector3(0,40,0)
+};
+function clampCam(){
+  cam.phi = Math.max(0.12, Math.min(Math.PI-0.12, cam.phi));
+  cam.phiGoal = Math.max(0.12, Math.min(Math.PI-0.12, cam.phiGoal));
+  cam.radius = Math.max(140, Math.min(3400, cam.radius));
+  cam.radiusGoal = Math.max(140, Math.min(3400, cam.radiusGoal));
+}
+// manual input (drag / wheel / WASD) moves the camera immediately, with no lag
+function setCamNow(theta, phi, radius){
+  if(theta !== undefined){ cam.theta = theta; cam.thetaGoal = theta; }
+  if(phi !== undefined){ cam.phi = phi; cam.phiGoal = phi; }
+  if(radius !== undefined){ cam.radius = radius; cam.radiusGoal = radius; }
+}
+function updateCameraPosition(){
+  // a slow, eased glide toward whatever goal is currently set (manual input keeps goal==value, so this is a no-op for it)
+  cam.target.lerp(cam.targetGoal, 0.045);
+  cam.theta += (cam.thetaGoal - cam.theta) * 0.045;
+  cam.phi   += (cam.phiGoal   - cam.phi)   * 0.045;
+  cam.radius += (cam.radiusGoal - cam.radius) * 0.045;
+  const x = cam.target.x + cam.radius*Math.sin(cam.phi)*Math.cos(cam.theta);
+  const y = cam.target.y + cam.radius*Math.cos(cam.phi);
+  const z = cam.target.z + cam.radius*Math.sin(cam.phi)*Math.sin(cam.theta);
+  camera.position.set(x,y,z);
+  camera.lookAt(cam.target);
+}
+
+/* ---------- pointer: drag to orbit, click (no drag) to pick ---------- */
+const raycaster = new THREE.Raycaster();
+const mouseNDC = new THREE.Vector2();
+function tryPick(clientX, clientY){
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouseNDC.x = ((clientX-rect.left)/rect.width)*2 - 1;
+  mouseNDC.y = -((clientY-rect.top)/rect.height)*2 + 1;
+  raycaster.setFromCamera(mouseNDC, camera);
+  const hits = raycaster.intersectObjects(raycastTargets);
+  if(hits.length && hits[0].instanceId !== undefined) selectAndFocus(idByIndex[hits[0].instanceId]);
+}
+let dragging=false, dragMoved=false, lastX=0, lastY=0;
+container.addEventListener('pointerdown', e=>{
+  dragging=true; dragMoved=false; lastX=e.clientX; lastY=e.clientY;
+  container.classList.add('dragging');
+  container.setPointerCapture && container.setPointerCapture(e.pointerId);
+  container.focus();
+  e.preventDefault();
+});
+window.addEventListener('pointerup', e=>{
+  if(dragging && !dragMoved) tryPick(e.clientX, e.clientY);
+  dragging=false; container.classList.remove('dragging');
+});
+window.addEventListener('pointercancel', ()=>{ dragging=false; container.classList.remove('dragging'); });
+window.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX, dy=e.clientY-lastY;
+  if(Math.abs(dx)+Math.abs(dy) > 3) dragMoved = true;
+  cam.theta -= dx*0.0045; cam.thetaGoal = cam.theta;
+  cam.phi   -= dy*0.0045; cam.phiGoal = cam.phi;
+  clampCam();
+  lastX=e.clientX; lastY=e.clientY;
+  e.preventDefault();
+});
+container.addEventListener('dragstart', e=>e.preventDefault());
+container.addEventListener('selectstart', e=>e.preventDefault());
+container.addEventListener('wheel', e=>{
+  e.preventDefault();
+  cam.radius *= (e.deltaY > 0 ? 1.1 : 0.9); cam.radiusGoal = cam.radius;
+  clampCam();
+}, { passive:false });
+
+document.getElementById('zoomInBtn').addEventListener('click', ()=>{ cam.radius *= 0.8; cam.radiusGoal = cam.radius; clampCam(); });
+document.getElementById('zoomOutBtn').addEventListener('click', ()=>{ cam.radius *= 1.25; cam.radiusGoal = cam.radius; clampCam(); });
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  cam.theta = cam.thetaGoal = 0.9; cam.phi = cam.phiGoal = 1.15; cam.radius = cam.radiusGoal = 1050;
+  cam.targetGoal.set(0,40,0);
+  setActiveRing(0); setActiveNavItem(null);
+  clearHighlight(); card.classList.remove('open');
+});
+
+/* ============================================================
+   SELECTION — arrow keys step between people; same logic as
+   the 2D version, just grouped by azimuth instead of screen angle
+   ============================================================ */
+let selectedId = 'McBryde-70';
+
+function buildGenGroups(){
+  const groups = {};
+  Object.values(D).forEach(p=>{
+    const g = p.gen || 0;
+    (groups[g] = groups[g] || []).push(p);
+  });
+  Object.values(groups).forEach(arr=>{
+    arr.sort((a,b)=> Math.atan2(a.z,a.x) - Math.atan2(b.z,b.x));
+  });
+  return groups;
+}
+const GEN_GROUPS = buildGenGroups();
+
+function moveSelection(dir){
+  const cur = D[selectedId];
+  if(!cur) return;
+  let next = null;
+  if(dir === 'left' || dir === 'right'){
+    const group = GEN_GROUPS[cur.gen || 0] || [cur];
+    const idx = group.findIndex(p=>p.id === selectedId);
+    if(idx > -1 && group.length > 1){
+      const ni = dir === 'right' ? (idx+1) % group.length : (idx-1+group.length) % group.length;
+      next = group[ni];
+    }
+  } else if(dir === 'up'){
+    if(cur.father && D[cur.father]) next = D[cur.father];
+    else if(cur.mother && D[cur.mother]) next = D[cur.mother];
+  } else if(dir === 'down'){
+    next = Object.values(D).find(p => p.father === selectedId || p.mother === selectedId);
+  }
+  if(next) selectAndFocus(next.id);
+}
+
+function selectAndFocus(id){
+  selectedId = id;
+  openCard(id);
+  setHighlightPath(id);
+  setSelectedVisual(id);
+  const p = D[id];
+  cam.targetGoal.set(p.x, p.y, p.z);
+}
+
+/* ============================================================
+   SCAN LOG (profile card)
+   ============================================================ */
+const card = document.getElementById('card');
+const cardBody = document.getElementById('cardBody');
+
+function openCard(id){
+  const p = D[id];
+  let html = ``;
+  html += `<div class="relation">${relationLabel(p)}</div>`;
+  html += `<h2>${p.name}</h2>`;
+  if(!id.startsWith('leaf-')){
+    html += `<div class="wtid"><a href="https://www.wikitree.com/wiki/${id}" target="_blank" rel="noopener">WikiTree: ${id} ↗</a></div>`;
+  } else {
+    html += `<div class="wtid">No WikiTree profile linked</div>`;
+  }
+  if(p.birth || p.birthPlace){
+    html += `<div class="fact"><div class="k">Born</div><div class="v">${p.birth||'date unknown'}${p.birthPlace?`<span class="place">${p.birthPlace}</span>`:''}</div></div>`;
+  }
+  if(p.death || p.deathPlace){
+    html += `<div class="fact"><div class="k">Died</div><div class="v">${p.death||'date unknown'}${p.deathPlace?`<span class="place">${p.deathPlace}</span>`:''}</div></div>`;
+  }
+  const country = countryOf(p.birthPlace) || countryOf(p.deathPlace);
+  if(country) html += `<div class="flag">${country}</div>`;
+  html += `<div class="bio">${makeBio(p)}</div>`;
+
+  const kin = [];
+  if(p.father && D[p.father]) kin.push(['Father', p.father]);
+  if(p.mother && D[p.mother]) kin.push(['Mother', p.mother]);
+  if(p.spouse && D[p.spouse]) kin.push(['Spouse', p.spouse]);
+  if(p.sibling && D[p.sibling]) kin.push(['Sibling', p.sibling]);
+  Object.values(D).forEach(c=>{
+    if(c.father === id || c.mother === id) kin.push(['Child', c.id]);
+  });
+  if(kin.length){
+    html += `<div class="kin-buttons">`;
+    kin.forEach(([label,kid])=>{
+      html += `<button class="kin-btn" data-go="${kid}">${label}: ${D[kid].name.split(' ').slice(0,2).join(' ')}</button>`;
+    });
+    html += `</div>`;
+  }
+  cardBody.innerHTML = html;
+  card.classList.add('open');
+  cardBody.querySelectorAll('[data-go]').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectAndFocus(btn.getAttribute('data-go')));
+  });
+}
+document.getElementById('closeCard').addEventListener('click', ()=>{
+  card.classList.remove('open');
+  clearHighlight();
+});
+
+/* ============================================================
+   KEYBOARD — WASD orbits the lattice (held), arrows step between
+   people (single steps), +/- adjusts range
+   ============================================================ */
+const keys = {};
+function isTypingTarget(t){ return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable); }
+let lastArrowMove = 0;
+window.addEventListener('keydown', e=>{
+  if(isTypingTarget(e.target)) return;
+  const k = e.key.toLowerCase();
+  if(['arrowup','arrowdown','arrowleft','arrowright'].includes(k)){
+    e.preventDefault();
+    const now = performance.now();
+    if(now - lastArrowMove < 150) return;
+    lastArrowMove = now;
+    moveSelection(k.replace('arrow',''));
+    return;
+  }
+  if(['w','a','s','d','+','=','-','_'].includes(k)){
+    keys[k] = true;
+    e.preventDefault();
+  }
+});
+window.addEventListener('keyup', e=>{ keys[e.key.toLowerCase()] = false; });
+
+function handleHeldKeys(dt){
+  let dTheta=0, dPhi=0, dZoom=0;
+  if(keys['a']) dTheta -= 1;
+  if(keys['d']) dTheta += 1;
+  if(keys['w']) dPhi -= 1;
+  if(keys['s']) dPhi += 1;
+  if(keys['+'] || keys['=']) dZoom -= 1;
+  if(keys['-'] || keys['_']) dZoom += 1;
+  if(dTheta || dPhi){
+    cam.theta += dTheta*1.1*dt; cam.thetaGoal = cam.theta;
+    cam.phi += dPhi*0.8*dt; cam.phiGoal = cam.phi;
+  }
+  if(dZoom){
+    cam.radius *= (1 + dZoom*1.0*dt); cam.radiusGoal = cam.radius;
+  }
+  if(dTheta || dPhi || dZoom) clampCam();
+}
+
+/* ============================================================
+   LABELS — projected from 3D world space onto the 2D HUD layer
+   ============================================================ */
+const labelLayer = document.getElementById('labelLayer');
+const labelEls = {};
+const LABELLED_IDS = Object.values(D).map(p => p.id);
+LABELLED_IDS.forEach(id=>{
+  const p = D[id];
+  const div = document.createElement('div');
+  div.className = 'label3d' + (p.root ? ' root' : '');
+  div.style.fontSize = Math.max(8.5, 11 - (p.gen||0)*0.45) + 'px';
+  div.textContent = p.name;
+  labelLayer.appendChild(div);
+  labelEls[id] = div;
+});
+const _projV = new THREE.Vector3();
+function updateLabels(){
+  const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight;
+  LABELLED_IDS.forEach(id=>{
+    const p = D[id], el = labelEls[id];
+    _projV.set(p.x, p.y, p.z).project(camera);
+    if(_projV.z > 1){ el.style.opacity = 0; return; }
+    const sx = (_projV.x*0.5+0.5)*w, sy = (-_projV.y*0.5+0.5)*h;
+    const onSelectedRing = navGen !== null && p.gen === navGen;
+    const scale = onSelectedRing ? 1.18 : 1;
+    el.style.transform = `translate(${sx.toFixed(1)}px, ${sy.toFixed(1)}px) translate(-50%,-130%) scale(${scale})`;
+    const base = Math.max(0.32, 0.85 - (p.gen||0)*0.06);
+    el.style.opacity = (id === selectedId || onSelectedRing) ? '1' : String(base);
+    el.classList.toggle('sel', id === selectedId);
+    el.classList.toggle('ringsel', onSelectedRing && id !== selectedId);
+  });
+  ringLabelPts.forEach(rl=>{
+    _projV.set(rl.x, rl.y, rl.z).project(camera);
+    if(_projV.z > 1){ rl.el.style.opacity = 0; return; }
+    const sx=(_projV.x*0.5+0.5)*w, sy=(-_projV.y*0.5+0.5)*h;
+    rl.el.style.transform = `translate(${sx.toFixed(1)}px, ${sy.toFixed(1)}px) translate(-50%,-50%)`;
+    const active = navGen === rl.gen;
+    rl.el.style.opacity = active ? 1 : 0.75;
+    rl.el.classList.toggle('active', active);
+  });
+}
+
+// a marker + label for each generation ring, anchored just past the living-branch gap
+const ringLabelPts = [];
+for(let g=1; g<=9; g++){
+  const r = ringRadius(g), y = g*HEIGHT_STEP;
+  const theta = (ARC_END + 13) * Math.PI/180;
+  const div = document.createElement('div');
+  div.className = 'ring-label3d';
+  div.textContent = GEN_NAMES[g];
+  labelLayer.appendChild(div);
+  ringLabelPts.push({ x: r*Math.cos(theta), y, z: r*Math.sin(theta), gen:g, el: div });
+}
+
+/* ============================================================
+   GENERATION NAVIGATOR — click a ring depth (or step with the
+   chevrons) to glide into a top-down view of that generation
+   ============================================================ */
+let navGen = null;
+function flyToGeneration(gen){
+  gen = Math.max(0, Math.min(9, gen));
+  navGen = gen;
+  cam.targetGoal.set(0, gen*HEIGHT_STEP, 0);
+  cam.phiGoal = 0.22; // near-vertical, a top-down look without the lookAt singularity at true 0
+  cam.radiusGoal = Math.max(280, ringRadius(gen)*1.5 + 230);
+  clampCam();
+  setActiveRing(gen);
+  setActiveNavItem(gen);
+}
+function setActiveNavItem(gen){
+  document.querySelectorAll('.gn-item').forEach(el=>{
+    el.classList.toggle('active', Number(el.dataset.gen) === gen);
+  });
+}
+(function buildGenNav(){
+  const nav = document.getElementById('genNav');
+  nav.innerHTML = `<div class="gn-title">Depth</div>
+    <button class="gn-chev" id="gnUp">▲ further back</button>
+    <div class="gn-list" id="gnList"></div>
+    <button class="gn-chev" id="gnDown">▼ toward Angus</button>`;
+  const list = document.getElementById('gnList');
+  for(let g=9; g>=0; g--){
+    const row = document.createElement('div');
+    row.className = 'gn-item';
+    row.dataset.gen = g;
+    row.innerHTML = `<span class="gn-dot"></span><span>${GEN_NAMES[g]}</span>`;
+    row.addEventListener('click', ()=> flyToGeneration(g));
+    list.appendChild(row);
+  }
+  document.getElementById('gnUp').addEventListener('click', ()=> flyToGeneration((navGen===null?0:navGen)+1));
+  document.getElementById('gnDown').addEventListener('click', ()=> flyToGeneration((navGen===null?0:navGen)-1));
+})();
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+const search = document.getElementById('search');
+const results = document.getElementById('results');
+search.addEventListener('input', ()=>{
+  const q = search.value.trim().toLowerCase();
+  if(!q){ results.style.display='none'; results.innerHTML=''; return; }
+  const matches = Object.values(D).filter(p=>p.name.toLowerCase().includes(q)).slice(0,10);
+  if(!matches.length){ results.style.display='none'; results.innerHTML=''; return; }
+  results.innerHTML = matches.map(p=>`<div data-id="${p.id}">${p.name}</div>`).join('');
+  results.style.display = 'block';
+  results.querySelectorAll('div').forEach(d=>{
+    d.addEventListener('click', ()=>{
+      selectAndFocus(d.getAttribute('data-id'));
+      results.style.display = 'none';
+      search.value = '';
+    });
+  });
+});
+
+/* ============================================================
+   RENDER LOOP
+   ============================================================ */
+let lastT = null;
+function animate(now){
+  requestAnimationFrame(animate);
+  if(lastT === null) lastT = now;
+  const dt = Math.min(0.05, (now-lastT)/1000);
+  lastT = now;
+  handleHeldKeys(dt);
+  updateCameraPosition();
+  updateReticle();
+  updateLabels();
+  renderer.render(scene, camera);
+}
+requestAnimationFrame(animate);
+
+// initial state: everything visible at its normal, lightly-lit opacity until a selection is made
+clearHighlight();
+</script>
+</body>
+</html>
