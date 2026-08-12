@@ -320,33 +320,30 @@ const D = {};
 function add(id, o){ D[id] = Object.assign({id}, o); }
 
 // --- Gen 0 : the root ---
-add('McBryde-508', {name:'Elliotte McBryde', gender:'U', birth:'23 Jul 2021', birthPlace:'Dunedin, Otago, New Zealand', father:'McBryde-70', mother:"Reid-O'Reilly-1", root:true});
-add('McBryde-Goldie', {name:'Goldie McBryde', gender:'U', birth:'2024', father:'McBryde-70', mother:"Reid-O'Reilly-1", sibling:'McBryde-508'});
+add('McBryde-508', {name:'Elliotte Rose McBryde', gender:'U', birth:'23 Jul 2021', birthPlace:'Dunedin, Otago, New Zealand', father:'McBryde-70', mother:"Reid-O'Reilly-1", root:true});
+add('McBryde-Goldie', {name:'Goldie Lou McBryde', gender:'U', birth:'2024', father:'McBryde-70', mother:"Reid-O'Reilly-1", sibling:'McBryde-508'});
 
 // --- Gen 1 : Elliotte's parents ---
-add('McBryde-70', {name:'Angus McBryde', gender:'M', birth:'12 Apr 1990', birthPlace:'Dunedin, Otago, New Zealand', father:'McBryde-53', mother:'Hawkey-164', spouse:"Reid-O'Reilly-1"});
+add('McBryde-70', {name:'Angus James McBryde', gender:'M', birth:'12 Apr 1990', birthPlace:'Dunedin, Otago, New Zealand', father:'McBryde-53', mother:'Hawkey-164', spouse:"Reid-O'Reilly-1"});
 add('Reid-O\'Reilly-1', {name:"Nadia Reid-O'Reilly", gender:'F', birth:'23 Aug 1991', birthPlace:'Devonport, Auckland, New Zealand', father:'craig-oreilly', mother:'karin-reid', spouse:'McBryde-70'});
 
-// --- Gen 2 : Angus's parents, and Nadia's parents ---
-add('McBryde-53', {name:'Nicholas McBryde', gender:'M', birth:'20 Jan 1957', father:'McBryde-55', mother:'Curran-1100'});
-add('Hawkey-164', {name:'Rosemary Hawkey', gender:'F', birth:'16 Dec 1962', father:'Hawkey-160', mother:'Aspden-44'});
-add('craig-oreilly', {name:"Craig O'Reilly", gender:'M', birth:'1971', father:'john-oreilly', mother:'noelene-dunn'});
-add('karin-reid', {name:'Karin Reid', gender:'F', birth:'1961', father:'sidney-reid', mother:'louisa-battes'});
+// --- Gen 2 : Elliotte & Goldie's Grandparents ---
+add('McBryde-53', {name:'Nicholas John McBryde', gender:'M', birth:'20 Jan 1957', father:'McBryde-55', mother:'Curran-1100'});
+add('Hawkey-164', {name:'Rosemary Helen Hawkey', gender:'F', birth:'16 Dec 1962', father:'Hawkey-160', mother:'Aspden-44'});
+add('craig-oreilly', {name:"Craig Stephen O'Reilly", gender:'M', birth:'1971', father:'john-oreilly', mother:'noelene-dunn'});
+add('karin-reid', {name:'Karin Lou Reid', gender:'F', birth:'1961', father:'sidney-reid', mother:'louisa-battes'});
 
-// --- Gen 3 (partial) : Nadia's grandparents ---
+// --- Gen 3 (partial) : E & G'S Great-grandparents ---
 add('john-oreilly', {name:"John O'Reilly", gender:'M'});
 add('noelene-dunn', {name:'Noelene Dunn', gender:'F'});
-add('sidney-reid', {name:'Sidney Reid', gender:'M'});
-add('louisa-battes', {name:'Louisa Battes', gender:'F'});
-
-
-// --- Gen 2 : grandparents ---
-add('McBryde-55', {name:'Ernest McBryde', gender:'M', birth:'1925', birthPlace:'New Zealand', death:'~2019', father:'McBryde-56', mother:'Dow-1525'});
-add('Curran-1100', {name:'Aileen Curran', gender:'F', birth:'1923', birthPlace:'New Zealand', death:'7 Mar 2008', father:'Curran-1104', mother:'Kinney-1574'});
-add('Hawkey-160', {name:'Graham Hawkey', gender:'M', birth:'9 Feb 1937', birthPlace:'New Zealand', death:'< 2015', father:'Hawkey-165', mother:'Rosevear-70'});
+add('sidney-reid', {name:'Sidney James Reid', gender:'M', father:'sidney-Reid2', mother:'louisa-vera'});
+add('louisa-battes', {name:'Louisa Rose Battes', gender:'F', father:'ernest-battes'});
+add('McBryde-55', {name:'Ernest James McBryde', gender:'M', birth:'1925', birthPlace:'New Zealand', death:'~2019', father:'McBryde-56', mother:'Dow-1525'});
+add('Curran-1100', {name:'Aileen Therese Curran', gender:'F', birth:'1923', birthPlace:'New Zealand', death:'7 Mar 2008', father:'Curran-1104', mother:'Kinney-1574'});
+add('Hawkey-160', {name:'Graham Earl Hawkey', gender:'M', birth:'9 Feb 1937', birthPlace:'New Zealand', death:'< 2015', father:'Hawkey-165', mother:'Rosevear-70'});
 add('Aspden-44', {name:'Margaret Nance Aspden', gender:'F', birth:'18 Oct 1936', birthPlace:'New Zealand', father:'Aspden-45', mother:'Tyer-31'});
 
-// --- Gen 3 : great-grandparents ---
+// --- Gen 3 : great-great-grandparents ---
 add('McBryde-56', {name:'Frederick McBryde', gender:'M', birth:'1883', death:'1951', father:'McBryde-58', mother:'Dumars-34'});
 add('Dow-1525', {name:'Edith Dow', gender:'F', birth:'1890', death:'26 Apr 1951', father:'Dow-1526', mother:'Cuddie-36'});
 add('Curran-1104', {name:'James Curran', gender:'M', death:'1949', deathPlace:'New Zealand'});
@@ -355,6 +352,10 @@ add('Hawkey-165', {name:'Clarence Hawkey', gender:'M', birth:'~1916', death:'199
 add('Rosevear-70', {name:'Estelle Rosevear', gender:'F', birth:'12 Sep 1912', death:'7 Aug 2001', deathPlace:'Waimate, New Zealand', father:'Rosevear-71', mother:"D'Amour-38"});
 add('Aspden-45', {name:'Alexander Aspden', gender:'M', birth:'3 Mar 1910', birthPlace:'Whangarei, New Zealand', death:'2 Aug 1977', father:'Aspden-46', mother:'Ferguson-7708'});
 add('Tyer-31', {name:'Marjorie Tyer', gender:'F', birth:'2 Jan 1912', birthPlace:'New Zealand', death:'14 Mar 2008', deathPlace:'New Zealand'});
+add('sidney-Reid2', {name:'Sidney Mackerson Reid', gender:'M'});
+add('louisa-vera', {name:'Louisa Vera Noe', gender:'F'});
+add('ernest-battes', {name:'Ernest William John Battes', gender:'M', birth:'August 1911', birthPlace: 'Canning Town', death:'26 January 1980'})
+
 
 // --- Gen 4 : great-great-grandparents ---
 add('McBryde-58', {name:'John McBryde', gender:'M', birth:'15 Jul 1849', birthPlace:'Plymouth, Devon, England', death:'23 Dec 1886', deathPlace:'New Zealand', father:'McBryde-545', mother:'McKenzie-13574'});
