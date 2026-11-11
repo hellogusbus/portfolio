@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- SEO Meta Tags -->
-    <title>Angus McBryde - Graphic Designer & Marketing Guy Portfolio</title>
+    <title>Angus McBryde</title>
     <meta name="description" content="Angus McBryde is a graphic designer and Marketing guy specializing in album artwork, concert posters, and brand identity. View portfolio of work for musicians and cultural events.">
     <meta name="keywords" content="Angus McBryde, graphic designer, visual artist, album artwork, concert posters, music design, brand identity, New Zealand designer">
     <meta name="author" content="Angus McBryde">
@@ -40,16 +41,6 @@
     <link rel="icon" type="image/webp" sizes="16x16" href="/favicon-16x16.webp">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp">
     
-    <!-- Stylesheets - Optimized Loading -->
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/home-splash.css">
-    <link rel="stylesheet" href="css/seo-accessibility.css" media="print" onload="this.media='all'">
-    
-    <!-- Preconnect for Performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
@@ -59,7 +50,7 @@
         "jobTitle": "Graphic Designer & Visual Artist",
         "url": "https://www.angusmcbry.de",
         "image": "https://www.angusmcbry.de/images/logo.webp",
-        "sameAs": [,
+        "sameAs": [
             "https://www.linkedin.com/in/angusmcbryde/",
             "https://www.behance.net/angus-mcbryde"
         ],
@@ -85,249 +76,788 @@
         }
     }
     </script>
+
+    <style>
+  :root {
+    --bg: #ffffff;
+    --fg: #000000;
+    --icon-filter: none;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #000000; --fg: #ffffff; --icon-filter: invert(1); color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #000000; --fg: #ffffff; --icon-filter: invert(1); color-scheme: dark; }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    overflow: hidden;
+    overscroll-behavior: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.15s ease;
+  }
+  #stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .menu {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 18px);
+    right: 18px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .burger {
+    width: 44px; height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+  }
+  .burger span {
+    position: absolute;
+    left: 10px; right: 10px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--fg);
+    transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease;
+  }
+  .burger span:nth-child(1) { top: 13px; }
+  .burger span:nth-child(2) { top: 20.5px; }
+  .burger span:nth-child(3) { top: 28px; }
+  .burger[aria-expanded="true"] span:nth-child(1) { top: 20.5px; transform: rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .burger[aria-expanded="true"] span:nth-child(3) { top: 20.5px; transform: rotate(-45deg); }
+  .burger:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  .menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    visibility: hidden;
+  }
+  .menu-items a {
+    position: relative;
+    display: block;
+    width: 30px; height: 30px;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .menu-items a:nth-child(2) { transition-delay: 0.04s; }
+  .menu.open .menu-items { visibility: visible; }
+  .menu.open .menu-items a { opacity: 1; transform: none; }
+  .menu-items img { display: block; width: 100%; height: 100%; object-fit: contain; filter: var(--icon-filter); }
+  .menu-items a:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; border-radius: 4px; }
+</style>
 </head>
 <body>
-    <!-- Home Splash Screen -->
-    <div id="homeSplash" class="home-splash">
-        <div class="quote-container">
-            <div class="quote-text"></div>
-        </div>
+  <h1 class="sr-only">Angus McBryde</h1>
+  <p class="sr-only">Angus is a designer and marketer from New Zealand, and Head of Marketing and Communications at Band on the Wall in Manchester, UK.</p>
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <nav class="menu" aria-label="Main">
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu-items" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="menu-items" id="menu-items">
+      <a href="work.html" data-label="Work" aria-label="Work" tabindex="-1"><img src="images/menu-work.png" alt=""></a>
+      <a href="about.html" data-label="About" aria-label="About" tabindex="-1"><img src="images/menu-about.png" alt=""></a>
     </div>
-    
-    <!-- Header with improved semantic structure -->
-    <header role="banner">
-        <h1>
-            <a href="index.html" aria-label="Angus McBryde Home">
-                <img src="images/logo.webp" alt="Angus McBryde - Graphic Designer Logo" width="200" height="50">
-            </a>
-        </h1>
-        <nav class="menu" role="navigation" aria-label="Main navigation">
-            <a href="about.html" aria-label="About Angus McBryde">
-                <img src="images/icon-about.webp" alt="About" width="40" height="40">
-            </a>
-        </nav>
-    </header>
+  </nav>
 
-    <!-- Sort Controls -->
-    <div class="sort-controls">
-        <button id="filterToggle" class="filter-toggle-btn">Filters ▼</button>
-        <div id="filterButtons" class="filter-buttons collapsed">
-            <button class="sort-btn active" data-filter="all">All</button>
-            <div id="dynamicFilters"></div>
-        </div>
-    </div>
+<script>
+(() => {
+  const TEXT = "Angus is a designer and marketer from New Zealand, and Head of Marketing and Communications at Band on the Wall in Manchester, UK.";
+  const NAME = "Angus McBryde";
+  const FONT = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+  // pastels; black is only the starting point in dark mode and is left out of the cycle
+  const THEMES = [
+    { bg: "#ffffff", fg: "#000000" },
+    { bg: "#ffd8e4", fg: "#000000" },
+    { bg: "#cfe8ff", fg: "#000000" },
+    { bg: "#fdf3b5", fg: "#000000" },
+    { bg: "#d5f5e3", fg: "#000000" },
+    { bg: "#e6dcff", fg: "#000000" },
+    { bg: "#ffdcc7", fg: "#000000" },
+    { bg: "#000000", fg: "#ffffff" },
+  ];
 
-     <!-- Main Content with semantic structure -->
-    <main class="gallery" role="main" aria-label="Portfolio Gallery">
-        <h2 class="visually-hidden">Portfolio Gallery</h2>
-        
-        <article class="gallery-item" data-images='["images/WOM_vinyl_front_mock.webp", "images/WOM_vinyl_back.webp"]'>
-            <img src="images/WOM_vinyl_front_mock.webp" alt="record-cover" width="723" height="1024" loading="lazy" data-caption="Graphic Design, Illustration - Mariam Tafsiri">
-        </article>
-       
-        <article class="gallery-item">
-            <img src="images/Asta_pressshot.webp" alt="Asta Press Shot - Music Photography" width="723" height="1024" loading="lazy" data-caption="Art Direction, Photography - Alex Lovell-Smith">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/work3.webp", "images/Force_ofNature_AAF_Ticketmaster_HighResArtwork_2426x1365.webp"]'>
-            <img src="images/work3.webp" alt="AAF2023" width="723" height="1024" loading="lazy" data-caption="Composite Artwork">
-        </article>
+  const GRAVITY = 1500;
+  const WALL_K = 1100;           // how springy the walls are
+  const WALL_C = 9;              // how quickly the spring settles
+  const SUBSTEPS = 4;
+  const RESTITUTION = 0.64;
+  const FRICTION = 0.3;
+  const SHATTER_SPEED = 2300;
+  const PATH_POINTS = 180;
+  const HULL_POINTS = 20;
 
-        <article class="gallery-item">
-        <img src="images/NR_large.webp" alt="NR Album Artwork" width="723" height="1024" loading="lazy" data-caption="Graphic Design, Photography - Si Moore ">
-        </article>
-                
-        <article class="gallery-item">
-            <img src="images/ArcadeMotionLogo2.gif" alt="Arcade Motion Animated Logo Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
+  const canvas = document.getElementById("stage");
+  const ctx = canvas.getContext("2d");
+  const root = document.documentElement;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const darkPref = matchMedia("(prefers-color-scheme: dark)");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
-        <article class="gallery-item">
-        <img src="images/Males_Thundercub_Web_large.webp" alt="Males Thundercub Web Design" width="723" height="1024" loading="lazy" data-caption="Digital Illustration & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/TBS_Large-1-723x1024.webp" alt="TBS Design Project" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/2_Lemons_Large-723x1024.webp" alt="Lemons Lemons Lemons Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/3_Sister_Large-723x1024.webp" alt="Sister Theatre Production Poster" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/3_1.webp" alt="DAF18 Airplay" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
+  let W = 0, H = 0, DPR = 1;
+  let themeIndex = darkPref.matches ? THEMES.length - 1 : 0;
+  let bodies = [], main = null, split = false, shards = null, drag = null, lastFrame = 0, clock = 0, nextHop = 0;
+  const pointer = { x: 0, y: 0, vx: 0, vy: 0, t: 0 };
+  const taps = new Map();
 
-               <article class="gallery-item">
-            <img src="images/angelfishrecords.gif" alt="record company logo" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/2021_Asta_Males_Tour.webp" alt="Asta Males Tour 2021 Poster" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-                        
-        <article class="gallery-item">
-            <img src="images/Fold_large.webp" alt="Fold Design Project" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Attila_Large-723x1024.webp" alt="Attila Theatre Poster Design" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-                
-        <article class="gallery-item">
-            <img src="images/TLol_Large-723x1024.webp" alt="TLol Design Project" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/2021-DAF.webp", "images/2021-DAF_spread1.webp"]'>
-            <img src="images/2021-DAF.webp" alt="DAF 2021 Festival Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/2022-DAF_crop.webp", "images/2022-DAF_spread1.webp", "images/2022-DAF_spread2.webp"]'>
-            <img src="images/2022-DAF_crop.webp" alt="DAF 2022 Festival Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/AR_ENTRTNMNT_cover_CD_1.webp", "images/asta_back.webp"]'>
-            <img src="images/AR_ENTRTNMNT_cover_CD_1.webp" alt="AR Entertainment Album Cover Design" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
+  const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+  const vibrate = (p) => { try { navigator.vibrate?.(p); } catch {} };
+  const theme = () => THEMES[themeIndex];
 
-        <article class="gallery-item">
-            <img src="images/botw_es.webp" alt="BOTW Summer campaign" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/bareposter.webp" alt="Bare Theatre Poster Design" width="723" height="1024" loading="lazy" data-caption="Photography & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/BCMD_large1.webp" alt="BCMD Brand Design" width="723" height="1024" loading="lazy" data-caption="Digital Illustration & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/BHB_WALU_tour_poster_a3_FINAL.webp" alt="BHB WALU Tour Poster Design" width="723" height="1024" loading="lazy" data-caption="Digital Illustration & Graphic Design">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/Canons_Mockup.webp", "images/Canons_title_spread.webp", "images/Canons_lyric_spread.webp"]'>
-            <img src="images/Canons_Mockup.webp" alt="Canons Brand Mockup Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design, illustration by James Albon">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/DAF_1.gif" alt="DAF Animated Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
+  function applyTheme() {
+    const t = theme();
+    root.style.setProperty("--bg", t.bg);
+    root.style.setProperty("--fg", t.fg);
+    root.style.setProperty("--icon-filter", t.fg === "#ffffff" ? "invert(1)" : "none");
+    meta.setAttribute("content", t.bg);
+  }
+  function nextTheme() {
+    if (shards) return;
+    themeIndex = (themeIndex + 1) % (THEMES.length - 1);
+    applyTheme();
+  }
 
-        <article class="gallery-item">
-            <img src="images/Glocknid_Large.webp" alt="Glocknid Design Project" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Harlequeen_Dunedin_A3.webp" alt="Harlequeen Dunedin Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/IFAAO_logo_options.webp" alt="IFAAO Logo Design Options" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/imasdfsdge-asset.webp" alt="Design Asset" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
+  /* ---------- sound ---------- */
+  let ac = null, out = null, lastThud = 0;
+  function armAudio() {
+    if (!ac) {
+      const C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return;
+      try { ac = new C(); } catch { return; }
+      out = ac.createGain();
+      out.gain.value = 0.8;
+      out.connect(ac.destination);
+    }
+    if (ac.state !== "running") ac.resume().catch(() => {});
+  }
+  const audible = () => ac && ac.state === "running";
+  function thud(speed) {
+    if (!audible()) return;
+    const now = performance.now();
+    if (now - lastThud < 40) return;
+    lastThud = now;
+    const t = ac.currentTime;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(240, t);
+    o.frequency.exponentialRampToValueAtTime(80, t + 0.1);
+    g.gain.setValueAtTime(Math.min(0.24, 0.04 + speed / 8000), t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+    o.connect(g).connect(out);
+    o.start(t); o.stop(t + 0.13);
+  }
+  function smash() {
+    if (!audible()) return;
+    const t = ac.currentTime;
+    const len = Math.floor(ac.sampleRate * 0.35);
+    const buf = ac.createBuffer(1, len, ac.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+    const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    src.buffer = buf;
+    f.type = "bandpass"; f.frequency.value = 1400; f.Q.value = 0.8;
+    g.gain.value = 0.9;
+    src.connect(f).connect(g).connect(out);
+    src.start(t);
+  }
 
-        <article class="gallery-item">
-            <img src="images/Angus_sketch2.webp" alt="sketh" width="723" height="1024" loading="lazy" data-caption="Digital Illustration">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Innovation-Centre-682x1024_1.webp" alt="Innovation Centre Brand Design" width="723" height="1024" loading="lazy" data-caption="Digital Illustration">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/J_W_Large.webp" alt="J W Design Project" width="723" height="1024" loading="lazy" data-caption="Digital Illustration & Graphic Design">
-        </article>
+  /* ---------- the blob ---------- */
+  function makeWobble() {
+    // a few slow, uneven harmonics make the outline feel drawn by hand
+    return [
+      { k: 2, a: 0.1, p: Math.random() * 6.28, s: 0.36 },
+      { k: 3, a: 0.07, p: Math.random() * 6.28, s: -0.3 },
+      { k: 4, a: 0.04, p: Math.random() * 6.28, s: 0.5 },
+      { k: 5, a: 0.024, p: Math.random() * 6.28, s: -0.6 },
+      { k: 7, a: 0.01, p: Math.random() * 6.28, s: 0.85 },
+    ];
+  }
+  function radiusAt(b, th, time) {
+    let r = 1;
+    for (const h of b.wobble) r += h.a * Math.sin(h.k * th + h.p + h.s * time);
+    return b.R * r;
+  }
 
-        <article class="gallery-item">
-            <img src="images/asta_tshirt.webp" alt="Asta Tshirt" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Keewai-BizCards.webp" alt="Keewai Business Cards Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/kiri_web.webp" alt="Kiri Web Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Label_Logo_2018_Final_Large_1.gif" alt="Record Label Logo Design 2018" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Males_Poster.webp" alt="Males Concert Poster Design" width="723" height="1024" loading="lazy" data-caption="Composite Artwork & Digital Illustration">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Nation-Dates1.webp" alt="Nation Tour Dates Poster" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/NR_NEW_Tote_gif.gif" alt="NR Tote Bag Design Animation" width="723" height="1024" loading="lazy" data-caption="Digital Illustration & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/NR_Xmas_2019_Poster.webp" alt="NR Christmas 2019 Concert Poster" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/pupilzero_large.webp" alt="Pupil Zero Design Project" width="723" height="1024" loading="lazy" data-caption="Digital Illustration & Graphic Design">
-        </article>
+  function sizeFor(scale) {
+    // size the blob to fit the sentence snugly, rather than to the screen
+    const fs = clamp(Math.min(W, H) * 0.022, 13, 19) * Math.sqrt(scale);
+    ctx.font = `400 ${fs}px ${FONT}`;
+    const textW = ctx.measureText(TEXT).width;
+    const R = Math.min((textW * 1.06) / (Math.PI * 2 * 1.03), W * 0.42, H * 0.38);
+    return { R, fs };
+  }
 
-        <article class="gallery-item">
-            <img src="images/Screen+Shot+2019-12-05+at+7.05.54+AM.webp" alt="Design Screenshot 2019" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/Screen+Shot+2020-04-28+at+8.34.11+AM.webp" alt="Album cover" width="723" height="1024" loading="lazy" data-caption="Art Direction">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/daf_18_wordmark.webp", "images/Screen+Shot+2020-05-07+at+4.14.30+PM.webp", "images/artsfest_18_brand.webp", "images/artsfest_18_pages2.webp", "images/artsfest_18_pages1.webp"]'>
-            <img src="images/daf_18_wordmark.webp" alt="Design Screenshot May 2020" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/SJD_MKUP.webp", "images/SJD_MKUP+BK.webp"]'>
-            <img src="images/SJD_MKUP.webp" alt="SJD Album Mockup Design" width="723" height="1024" loading="lazy" data-caption="Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/SlowTime_1.webp" alt="Slow Time Logo" width="723" height="1024" loading="lazy" data-caption="Graphic Design & Branding">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/The_Flick_A3_Screen.webp", "images/flick_full.webp", "images/Flick_billboard.webp"]'>
-            <img src="images/The_Flick_A3_Screen.webp" alt="The Flick Theatre Poster" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-        
-        <article class="gallery-item" data-images='["images/tinyruins-front.webp", "images/TinyRuins-Ceremony-back.webp"]'>
-            <img src="images/tiny_pack.webp" alt="Tiny Ruins Ceremony Album Artwork" width="723" height="1024" loading="lazy" data-caption="Graphic Design, painting - Christiane Shortal">
-        </article>
+  function layoutText(b) {
+    // fix each glyph's place as a fraction of the way round, so the text rides the wobble
+    const { fs } = b;
+    ctx.font = `400 ${fs}px ${FONT}`;
+    shapeAt(b, 0);
+    const total = b.path.total;
+    let str = b.text;
+    const spacer = "      ";
+    if (b.repeat) {
+      const unit = `${b.text}${spacer}`;
+      const n = Math.max(1, Math.floor(total / ctx.measureText(unit).width));
+      str = unit.repeat(n).trimEnd();
+    }
+    const chars = Array.from(str);
+    const gap = b.repeat ? ctx.measureText(spacer).width : fs * 1.2;
+    const avail = total - gap;
+    const raw = ctx.measureText(str).width;
+    b.hs = Math.min(1, avail / raw);
+    const widths = chars.map((c) => ctx.measureText(c).width * b.hs);
+    const glyphW = widths.reduce((a, c) => a + c, 0);
+    const tracking = Math.max(0, (avail - glyphW) / chars.length);
+    let s = gap / 2, word = 0;
+    b.glyphs = [];
+    chars.forEach((ch, i) => {
+      if (/\s/.test(ch)) word++;
+      else b.glyphs.push({ ch, f: (s + widths[i] / 2) / total, word, x: 0, y: 0, rot: 0 });
+      s += widths[i] + tracking;
+    });
+  }
 
-        <article class="gallery-item">
-            <img src="images/WITWH_large.webp" alt="WITWH Design Project" width="723" height="1024" loading="lazy" data-caption="Photography & Graphic Design">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/work1.webp" alt="Graphic Design Portfolio Work 1" width="723" height="1024" loading="lazy" data-caption="Digital Illustration">
-        </article>
-        
-        <article class="gallery-item">
-            <img src="images/work2.webp" alt="Graphic Design Portfolio Work 2" width="723" height="1024" loading="lazy" data-caption="Art Direction & Graphic Design">
-        </article>
-    </main>
-    
-    <!-- Footer for additional SEO -->
-    <footer role="contentinfo">
-        <p>&copy; 2026 Angus McBryde. All rights reserved.</p>
-    </footer>
-    
-    <script src="js/home-splash.js" defer></script>
-    <script src="js/gallery.js" defer></script>
+  function shapeAt(b, time) {
+    const start = (160 * Math.PI) / 180;      // text begins low on the left and runs clockwise
+    const pts = [];
+    for (let i = 0; i <= PATH_POINTS; i++) {
+      const th = start + (i / PATH_POINTS) * Math.PI * 2;
+      const r = radiusAt(b, th, time);
+      pts.push({ x: Math.cos(th) * r, y: Math.sin(th) * r });
+    }
+    const cum = new Float32Array(pts.length);
+    for (let i = 1; i < pts.length; i++) cum[i] = cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    b.path = { pts, cum, total: cum[cum.length - 1] };
+  }
+  function pathAt(b, f) {
+    const { pts, cum, total } = b.path;
+    const s = (((f % 1) + 1) % 1) * total;
+    let lo = 0, hi = cum.length - 1;
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (cum[mid] < s) lo = mid; else hi = mid; }
+    const t = (s - cum[lo]) / (cum[hi] - cum[lo] || 1);
+    const a = pts[lo], c = pts[hi];
+    return { x: a.x + (c.x - a.x) * t, y: a.y + (c.y - a.y) * t, rot: Math.atan2(c.y - a.y, c.x - a.x) };
+  }
+  function updateShape(b, time) {
+    shapeAt(b, time);
+    b.hull = [];
+    for (let i = 0; i < HULL_POINTS; i++) b.hull.push(pathAt(b, i / HULL_POINTS));
+    b.hullR = b.fs * 0.66;
+    squashAgainstWalls(b);
+    for (const g of b.glyphs) Object.assign(g, pathAt(b, g.f));
+  }
+  // flatten the outline where it meets an edge, and let it spread along the wall
+  function squashAgainstWalls(b) {
+    const m = b.fs * 0.62, s = b.fs * 1.1;
+    const pr = b.press || {};
+    const spreadX = 1 + (0.35 * ((pr.t || 0) + (pr.b || 0))) / b.R;
+    const spreadY = 1 + (0.35 * ((pr.l || 0) + (pr.r || 0))) / b.R;
+    const reach = b.R * 1.4 + s + m;
+    const near = b.x - reach < 0 || b.x + reach > W || b.y - reach < 0 || b.y + reach > H;
+    if (!near && spreadX === 1 && spreadY === 1) return;
+    const c = Math.cos(b.a), sn = Math.sin(b.a);
+    const soft = (v, wall) => (v >= wall + s ? v : wall + s * Math.exp((v - wall - s) / s));
+    const pts = b.path.pts.map((p) => {
+      let x = b.x + c * p.x - sn * p.y, y = b.y + sn * p.x + c * p.y;
+      x = b.x + (x - b.x) * spreadX;
+      y = b.y + (y - b.y) * spreadY;
+      x = soft(x, m); x = W - soft(W - x, m);
+      y = soft(y, m); y = H - soft(H - y, m);
+      const dx = x - b.x, dy = y - b.y;
+      return { x: c * dx + sn * dy, y: -sn * dx + c * dy };
+    });
+    const cum = new Float32Array(pts.length);
+    for (let i = 1; i < pts.length; i++) cum[i] = cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    b.path = { pts, cum, total: cum[cum.length - 1] };
+  }
+
+  function makeBody(scale, text, repeat) {
+    const { R, fs } = sizeFor(scale);
+    const m = scale * scale;
+    const b = {
+      x: W / 2, y: H / 2, vx: 0, vy: 0, a: 0, w: 0,
+      scale, R, fs, text, repeat, m, I: m * R * R * 0.45,
+      wobble: makeWobble(), squish: null,
+    };
+    layoutText(b);
+    updateShape(b, clock);
+    return b;
+  }
+  function resizeBody(b) {
+    const { R, fs } = sizeFor(b.scale);
+    b.R = R; b.fs = fs;
+    b.m = b.scale * b.scale;
+    b.I = b.m * R * R * 0.45;
+    layoutText(b);
+    updateShape(b, clock);
+  }
+  const toWorld = (b, lx, ly) => {
+    const c = Math.cos(b.a), s = Math.sin(b.a);
+    return { x: b.x + c * lx - s * ly, y: b.y + s * lx + c * ly };
+  };
+
+  /* ---------- physics ---------- */
+  function impulse(b, rx, ry, jx, jy) {
+    b.vx += jx / b.m;
+    b.vy += jy / b.m;
+    b.w += (rx * jy - ry * jx) / b.I;
+  }
+  function contact(b, px, py, nx, ny, impacts) {
+    const rx = px - b.x, ry = py - b.y;
+    const vpx = b.vx - b.w * ry, vpy = b.vy + b.w * rx;
+    const vn = vpx * nx + vpy * ny;
+    if (vn >= 0) return;
+    const rn = rx * ny - ry * nx;
+    const e = -vn > 90 ? RESTITUTION : 0;
+    const jn = (-(1 + e) * vn) / (1 / b.m + (rn * rn) / b.I);
+    impulse(b, rx, ry, jn * nx, jn * ny);
+    const tx = -ny, ty = nx;
+    const vt = (b.vx - b.w * ry) * tx + (b.vy + b.w * rx) * ty;
+    const rt = rx * ty - ry * tx;
+    const jt = clamp(-vt / (1 / b.m + (rt * rt) / b.I), -FRICTION * jn, FRICTION * jn);
+    impulse(b, rx, ry, jt * tx, jt * ty);
+    impacts.push({ b, speed: -vn, nx, ny });
+  }
+  function walls(b, impacts, dt) {
+    const h = b.hullR;
+    let deepest = { l: 0, r: 0, t: 0, bt: 0 };
+    let hit = { l: null, r: null, t: null, bt: null };
+    for (const q of b.hull) {
+      const p = toWorld(b, q.x, q.y);
+      if (h - p.x > deepest.l) { deepest.l = h - p.x; hit.l = p; }
+      if (p.x + h - W > deepest.r) { deepest.r = p.x + h - W; hit.r = p; }
+      if (h - p.y > deepest.t) { deepest.t = h - p.y; hit.t = p; }
+      if (p.y + h - H > deepest.bt) { deepest.bt = p.y + h - H; hit.bt = p; }
+    }
+    if (hit.l) b.touch = -1;
+    if (hit.r) b.touch = 1;
+    if (hit.bt) b.floor = true;
+    b.press = b.press || { l: 0, r: 0, t: 0, b: 0 };
+    b.inContact = b.inContact || {};
+    const maxPen = b.R * 0.6;
+    const sides = [
+      ["l", hit.l, deepest.l, 1, 0, -h, 0],
+      ["r", hit.r, deepest.r, -1, 0, h, 0],
+      ["t", hit.t, deepest.t, 0, 1, 0, -h],
+      ["b", hit.bt, deepest.bt, 0, -1, 0, h],
+    ];
+    for (const [key, p, pen, nx, ny, ox, oy] of sides) {
+      b.press[key] = pen;
+      if (!p) { b.inContact[key] = false; continue; }
+      const rx = p.x + ox - b.x, ry = p.y + oy - b.y;
+      const vn = (b.vx - b.w * ry) * nx + (b.vy + b.w * rx) * ny;
+      if (!b.inContact[key]) {
+        b.inContact[key] = true;
+        if (-vn > 90) impacts.push({ b, speed: -vn, nx, ny });
+      }
+      // a soft, springy wall: the blob sinks in and squashes, then pushes itself off
+      const jn = Math.max(0, WALL_K * pen - WALL_C * vn) * b.m * dt;
+      impulse(b, rx, ry, jn * nx, jn * ny);
+      const tx = -ny, ty = nx;
+      const vt = (b.vx - b.w * ry) * tx + (b.vy + b.w * rx) * ty;
+      const rt = rx * ty - ry * tx;
+      const jt = clamp(-vt / (1 / b.m + (rt * rt) / b.I), -FRICTION * jn, FRICTION * jn);
+      impulse(b, rx, ry, jt * tx, jt * ty);
+      if (pen > maxPen) {
+        b.x += nx * (pen - maxPen);
+        b.y += ny * (pen - maxPen);
+        const vn2 = b.vx * nx + b.vy * ny;
+        if (vn2 < 0) { b.vx -= vn2 * nx; b.vy -= vn2 * ny; }
+      }
+    }
+  }
+  function circlesOf(b) {
+    const list = b.hull.map((q) => ({ ...toWorld(b, q.x, q.y), r: b.hullR }));
+    list.push({ x: b.x, y: b.y, r: b.R * 0.62 });
+    return list;
+  }
+  function bodyPair(a, b, impacts) {
+    const ca = circlesOf(a), cb = circlesOf(b);
+    for (const p of ca) for (const q of cb) {
+      const dx = q.x - p.x, dy = q.y - p.y;
+      const d = Math.hypot(dx, dy) || 1e-6;
+      const pen = p.r + q.r - d;
+      if (pen <= 0) continue;
+      const nx = dx / d, ny = dy / d;
+      const cx = p.x + nx * p.r, cy = p.y + ny * p.r;
+      const rax = cx - a.x, ray = cy - a.y, rbx = cx - b.x, rby = cy - b.y;
+      const vn = ((b.vx - b.w * rby) - (a.vx - a.w * ray)) * nx + ((b.vy + b.w * rbx) - (a.vy + a.w * rax)) * ny;
+      const wa = a === drag?.body ? 0 : 1, wb = b === drag?.body ? 0 : 1;
+      if (vn < 0) {
+        const rna = rax * ny - ray * nx, rnb = rbx * ny - rby * nx;
+        const k = wa * (1 / a.m + (rna * rna) / a.I) + wb * (1 / b.m + (rnb * rnb) / b.I);
+        if (k > 0) {
+          const j = (-(1 + 0.5) * vn) / k;
+          if (wa) impulse(a, rax, ray, -j * nx, -j * ny);
+          if (wb) impulse(b, rbx, rby, j * nx, j * ny);
+          if (-vn > 200) impacts.push({ b: a, speed: -vn, nx: -nx, ny: -ny }, { b, speed: -vn, nx, ny });
+        }
+      }
+      const total = wa / a.m + wb / b.m;
+      if (total > 0) {
+        const corr = (pen * 0.8) / total;
+        a.x -= (nx * corr * wa) / a.m; a.y -= (ny * corr * wa) / a.m;
+        b.x += (nx * corr * wb) / b.m; b.y += (ny * corr * wb) / b.m;
+      }
+    }
+  }
+  function dragStep(dt) {
+    if (!drag) return;
+    const b = drag.body;
+    const p = toWorld(b, drag.lx, drag.ly);
+    const rx = p.x - b.x, ry = p.y - b.y;
+    const vpx = b.vx - b.w * ry, vpy = b.vy + b.w * rx;
+    const k = 0.25 / dt;
+    const dvx = (pointer.x - p.x) * k - vpx;
+    const dvy = (pointer.y - p.y) * k - vpy;
+    const k11 = 1 / b.m + (ry * ry) / b.I, k22 = 1 / b.m + (rx * rx) / b.I, k12 = -(rx * ry) / b.I;
+    const det = k11 * k22 - k12 * k12 || 1e-9;
+    impulse(b, rx, ry, ((k22 * dvx - k12 * dvy) / det) * 0.9, ((k11 * dvy - k12 * dvx) / det) * 0.9);
+    b.w *= 0.985;
+  }
+
+  function step(dt) {
+    const impacts = [];
+    for (let s = 0; s < SUBSTEPS; s++) {
+      const h = dt / SUBSTEPS;
+      for (const b of bodies) {
+        b.vy += GRAVITY * h;
+        b.x += b.vx * h;
+        b.y += b.vy * h;
+        b.a += b.w * h;
+        b.w *= 0.9993;
+      }
+      dragStep(h);
+      for (const b of bodies) walls(b, impacts, h);
+      if (bodies.length > 1) bodyPair(bodies[0], bodies[1], impacts);
+    }
+    let loudest = 0;
+    const seen = new Set();
+    for (const hit of impacts) {
+      if (hit.speed < 220 || seen.has(hit.b)) continue;
+      seen.add(hit.b);
+      loudest = Math.max(loudest, hit.speed);
+      hit.b.squish = { angle: Math.atan2(hit.ny, hit.nx), amt: Math.min(0.08, hit.speed / 16000), start: performance.now() };
+      if (hit.b === main && !split && hit.speed > SHATTER_SPEED && hit.b !== drag?.body) {
+        shatter();
+        return;
+      }
+    }
+    if (loudest) { thud(loudest); nextTheme(); }
+  }
+
+  /* ---------- shatter and rebuild ---------- */
+  const glyphPose = (b, g) => { const p = toWorld(b, g.x, g.y); return { x: p.x, y: p.y, rot: g.rot + b.a }; };
+  function shatter() {
+    const b = main;
+    const leads = new Map();
+    const pieces = [];
+    for (const g of b.glyphs) {
+      const p = glyphPose(b, g);
+      if (!leads.has(g.word)) {
+        const out = Math.atan2(p.y - b.y, p.x - b.x) + (Math.random() - 0.5) * 0.8;
+        const speed = 300 + Math.random() * 500;
+        leads.set(g.word, {
+          vx: Math.cos(out) * speed + b.vx * 0.3,
+          vy: Math.sin(out) * speed + b.vy * 0.3 - 200,
+          spin: (Math.random() - 0.5) * 3,
+        });
+      }
+      pieces.push({ ch: g.ch, f: g.f, word: g.word, x: p.x, y: p.y, rot: p.rot, lead: leads.get(g.word) });
+    }
+    shards = { pieces, rebuilding: null };
+    drag = null;
+    smash();
+    vibrate([18, 28, 22]);
+  }
+  function stepShards(dt) {
+    if (shards.rebuilding) return;
+    const groups = new Map();
+    for (const p of shards.pieces) {
+      if (!groups.has(p.word)) groups.set(p.word, []);
+      groups.get(p.word).push(p);
+    }
+    const pad = main.fs * 0.5;
+    for (const list of groups.values()) {
+      const lead = list[0].lead;
+      lead.vy += GRAVITY * dt;
+      const dx = lead.vx * dt, dy = lead.vy * dt, dr = lead.spin * dt;
+      const cx = list.reduce((a, p) => a + p.x, 0) / list.length;
+      const cy = list.reduce((a, p) => a + p.y, 0) / list.length;
+      const c = Math.cos(dr), s = Math.sin(dr);
+      let maxY = -Infinity, minY = Infinity, minX = Infinity, maxX = -Infinity;
+      for (const p of list) {
+        const ox = p.x - cx, oy = p.y - cy;
+        p.x = cx + c * ox - s * oy + dx;
+        p.y = cy + s * ox + c * oy + dy;
+        p.rot += dr;
+        maxY = Math.max(maxY, p.y); minY = Math.min(minY, p.y);
+        minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+      }
+      let fx = 0, fy = 0;
+      if (maxY + pad > H) { fy = H - pad - maxY; if (lead.vy > 0) { lead.vy = lead.vy > 250 ? -lead.vy * 0.3 : 0; lead.vx *= 0.8; lead.spin *= 0.6; } }
+      if (minY - pad < 0) { fy = pad - minY; lead.vy = Math.abs(lead.vy) * 0.4; }
+      if (minX - pad < 0) { fx = pad - minX; lead.vx = Math.abs(lead.vx) * 0.5; }
+      if (maxX + pad > W) { fx = W - pad - maxX; lead.vx = -Math.abs(lead.vx) * 0.5; }
+      if (fx || fy) for (const p of list) { p.x += fx; p.y += fy; }
+      if (maxY + pad >= H - 0.5 && lead.vy === 0) { lead.vx *= 0.9; lead.spin *= 0.85; }
+    }
+  }
+  function rebuild() {
+    if (!shards || shards.rebuilding) return;
+    Object.assign(main, { x: W / 2, y: H / 2, a: 0, vx: 0, vy: 0, w: 0 });
+    updateShape(main, clock);
+    const byF = new Map(main.glyphs.map((g) => [g.f, g]));
+    for (const p of shards.pieces) {
+      const t = glyphPose(main, byF.get(p.f));
+      Object.assign(p, { x0: p.x, y0: p.y, r0: p.rot, tx: t.x, ty: t.y, tr: t.rot });
+    }
+    shards.rebuilding = performance.now();
+    thud(900);
+  }
+
+  /* ---------- double-tap: the blob divides in two ---------- */
+  function toggleSplit() {
+    if (shards) return;
+    if (split) {
+      const other = bodies.find((b) => b !== main);
+      main.x = (main.x + other.x) / 2;
+      main.y = Math.min(main.y, other.y);
+      bodies = [main];
+      main.scale = 1;
+      resizeBody(main);
+      split = false;
+      vibrate(8);
+      thud(700);
+      return;
+    }
+    main.scale = 0.66;
+    resizeBody(main);
+    const twin = makeBody(0.66, NAME, true);
+    const off = main.R * 1.15;
+    twin.x = clamp(main.x + off, twin.R, W - twin.R);
+    twin.y = main.y - main.R * 0.3;
+    main.x = clamp(main.x - off, main.R, W - main.R);
+    twin.vx = 500; main.vx = -500;
+    twin.vy = main.vy = -400;
+    twin.w = 1.5; main.w = -1.5;
+    bodies = [main, twin];
+    split = true;
+    vibrate(10);
+    thud(900);
+  }
+
+  /* ---------- drawing ---------- */
+  function bodyMatrix(b, now) {
+    let m = new DOMMatrix().scale(DPR, DPR).translate(b.x, b.y);
+    if (b.squish) {
+      const t = (now - b.squish.start) / 200;
+      if (t >= 1) b.squish = null;
+      else {
+        const amt = b.squish.amt * Math.sin(t * Math.PI) * (1 - t * 0.3);
+        const deg = (b.squish.angle * 180) / Math.PI;
+        m = m.rotate(deg).scale(1 - amt, 1 + amt * 0.45).rotate(-deg);
+      }
+    }
+    return m.rotate((b.a * 180) / Math.PI);
+  }
+  function drawBody(b, now) {
+    const m = bodyMatrix(b, now);
+    ctx.font = `400 ${b.fs}px ${FONT}`;
+    ctx.fillStyle = theme().fg;
+    for (const g of b.glyphs) {
+      const c = Math.cos(g.rot), s = Math.sin(g.rot);
+      ctx.setTransform(m.multiply(new DOMMatrix([c * b.hs, s * b.hs, -s, c, g.x, g.y])));
+      ctx.fillText(g.ch, 0, 0);
+    }
+  }
+  function drawShards(now) {
+    ctx.font = `400 ${main.fs}px ${FONT}`;
+    ctx.fillStyle = theme().fg;
+    let t = 0;
+    if (shards.rebuilding) {
+      t = clamp((now - shards.rebuilding) / 750, 0, 1);
+      const e = 1 - Math.pow(1 - t, 4);
+      for (const p of shards.pieces) {
+        let dr = (p.tr - p.r0) % (Math.PI * 2);
+        if (dr > Math.PI) dr -= Math.PI * 2;
+        if (dr < -Math.PI) dr += Math.PI * 2;
+        p.x = p.x0 + (p.tx - p.x0) * e;
+        p.y = p.y0 + (p.ty - p.y0) * e;
+        p.rot = p.r0 + dr * e;
+      }
+    }
+    const hs = main.hs;
+    for (const p of shards.pieces) {
+      const c = Math.cos(p.rot), s = Math.sin(p.rot);
+      ctx.setTransform(DPR * c * hs, DPR * s * hs, -DPR * s, DPR * c, DPR * p.x, DPR * p.y);
+      ctx.fillText(p.ch, 0, 0);
+    }
+    if (shards.rebuilding && t >= 1) shards = null;
+  }
+  function draw(now) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    if (shards) drawShards(now);
+    else for (const b of bodies) drawBody(b, now);
+  }
+
+  /* ---------- input ---------- */
+  function hitBody(x, y) {
+    for (let i = bodies.length - 1; i >= 0; i--) {
+      const b = bodies[i];
+      if (Math.hypot(x - b.x, y - b.y) <= b.R * 1.12 + b.fs) return b;
+    }
+    return null;
+  }
+  canvas.addEventListener("pointerdown", (e) => {
+    armAudio();
+    if (shards) { rebuild(); return; }
+    const b = hitBody(e.clientX, e.clientY);
+    if (!b || drag) return;
+    try { canvas.setPointerCapture(e.pointerId); } catch {}
+    const c = Math.cos(-b.a), s = Math.sin(-b.a);
+    const dx = e.clientX - b.x, dy = e.clientY - b.y;
+    drag = { id: e.pointerId, body: b, lx: c * dx - s * dy, ly: s * dx + c * dy };
+    Object.assign(pointer, { x: e.clientX, y: e.clientY, vx: 0, vy: 0, t: performance.now() });
+    taps.set(e.pointerId, { x: e.clientX, y: e.clientY, t: performance.now(), moved: false });
+    bodies.splice(bodies.indexOf(b), 1);
+    bodies.push(b);
+    canvas.style.cursor = "grabbing";
+    e.preventDefault();
+  });
+  canvas.addEventListener("pointermove", (e) => {
+    const tap = taps.get(e.pointerId);
+    if (tap && Math.hypot(e.clientX - tap.x, e.clientY - tap.y) > 10) tap.moved = true;
+    if (!drag || drag.id !== e.pointerId) {
+      if (e.pointerType === "mouse") canvas.style.cursor = shards ? "pointer" : hitBody(e.clientX, e.clientY) ? "grab" : "default";
+      return;
+    }
+    const now = performance.now();
+    const dt = Math.max(1, now - pointer.t) / 1000;
+    pointer.vx = pointer.vx * 0.4 + ((e.clientX - pointer.x) / dt) * 0.6;
+    pointer.vy = pointer.vy * 0.4 + ((e.clientY - pointer.y) / dt) * 0.6;
+    pointer.x = e.clientX; pointer.y = e.clientY; pointer.t = now;
+  });
+  let lastTap = null;
+  function endPointer(e) {
+    const tap = taps.get(e.pointerId);
+    taps.delete(e.pointerId);
+    if (drag && drag.id === e.pointerId) {
+      const b = drag.body;
+      if (performance.now() - pointer.t > 90) { b.vx *= 0.3; b.vy *= 0.3; b.w *= 0.5; }
+      drag = null;
+      canvas.style.cursor = "default";
+    }
+    if (e.type !== "pointerup" || !tap || tap.moved || performance.now() - tap.t > 260) return;
+    const now = performance.now();
+    if (lastTap && now - lastTap.t < 330 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 40) {
+      lastTap = null;
+      toggleSplit();
+    } else {
+      lastTap = { t: now, x: e.clientX, y: e.clientY };
+    }
+  }
+  canvas.addEventListener("pointerup", endPointer);
+  canvas.addEventListener("pointercancel", endPointer);
+  canvas.addEventListener("dblclick", (e) => e.preventDefault());
+
+  /* ---------- menu ---------- */
+  const menu = document.querySelector(".menu");
+  const burger = document.querySelector(".burger");
+  const menuLinks = [...document.querySelectorAll(".menu-items a")];
+  function setMenu(open) {
+    menu.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    menuLinks.forEach((a) => (a.tabIndex = open ? 0 : -1));
+  }
+  burger.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("open")) { setMenu(false); burger.focus(); }
+  });
+  canvas.addEventListener("pointerdown", () => setMenu(false), true);
+
+  /* ---------- loop ---------- */
+  function frame(now) {
+    const dt = lastFrame ? Math.min(1 / 30, (now - lastFrame) / 1000) : 1 / 60;
+    lastFrame = now;
+    if (!reduceMotion.matches) clock += dt;
+    if (shards) stepShards(dt);
+    else {
+      // resting on the floor, it rolls slowly; touching a side wall pushes it back and changes the colour
+      if (!reduceMotion.matches) {
+        for (const b of bodies) {
+          if (b === drag?.body) continue;
+          if (b.dir === undefined) b.dir = Math.random() < 0.5 ? -1 : 1;
+          if (b.floor) {
+            b.vx += (b.dir * 70 - b.vx) * 0.03;
+            b.w += (b.vx / b.R - b.w) * 0.05;
+          }
+          if (b.touch && b.touch === b.dir && now - (b.lastRepel || 0) > 700) {
+            b.dir = -b.dir;
+            b.lastRepel = now;
+            b.vx = b.dir * 260;
+            b.vy -= 120;
+            b.w = b.vx / b.R;
+            b.squish = { angle: b.touch > 0 ? 0 : Math.PI, amt: 0.08, start: performance.now() };
+            nextTheme();
+            thud(400);
+          }
+        }
+      }
+      for (const b of bodies) { b.touch = 0; b.floor = false; }
+      step(dt);
+      for (const b of bodies) updateShape(b, clock);
+    }
+    draw(now);
+    requestAnimationFrame(frame);
+  }
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth;
+    H = innerHeight;
+    canvas.width = Math.ceil(W * DPR);
+    canvas.height = Math.ceil(H * DPR);
+    for (const b of bodies) resizeBody(b);
+  }
+
+  resize();
+  addEventListener("resize", resize);
+  main = makeBody(1, TEXT, false);
+  main.x = W / 2;
+  main.y = H * 0.42;
+  bodies = [main];
+  darkPref.addEventListener("change", () => {
+    if (themeIndex === 0 || themeIndex === THEMES.length - 1) {
+      themeIndex = darkPref.matches ? THEMES.length - 1 : 0;
+      root.style.removeProperty("--bg");
+      root.style.removeProperty("--fg");
+      root.style.removeProperty("--icon-filter");
+    }
+  });
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>
