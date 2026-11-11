@@ -5,9 +5,17 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.angusmcbry.de/</loc>
-    <lastmod>2024-02-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Work -->
+  <url>
+    <loc>https://www.angusmcbry.de/work.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
     
     <!-- Image URLs for gallery items -->
     <image:image>
