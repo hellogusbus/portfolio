@@ -84,6 +84,84 @@
         }
     }
     </script>
+
+    <style>
+        /* Work page: matches the home and About pages */
+        :root { --page: #ffffff; --page-rgb: 255, 255, 255; }
+        body { background-color: var(--page); transition: background-color 0.4s ease; }
+        header { background-color: transparent; mix-blend-mode: multiply; }
+
+
+        /* the filters become a line of words */
+        .sort-controls { text-align: left; padding: 40px 40px 0; margin-bottom: 36px; }
+        .filter-toggle-btn { display: none; }
+        .filter-buttons,
+        .filter-buttons.collapsed {
+            justify-content: flex-start;
+            gap: 4px 22px;
+            margin-top: 0;
+            max-height: none;
+        }
+        #dynamicFilters { display: contents; }
+        .sort-btn {
+            padding: 2px 0;
+            font-size: clamp(18px, 1.7vw, 26px);
+            letter-spacing: -0.01em;
+            color: #333;
+            opacity: 0.45;
+            transition: opacity 0.2s;
+        }
+        .sort-btn:hover { color: #333; opacity: 1; }
+        .sort-btn.active {
+            opacity: 1;
+            text-decoration: underline;
+            text-decoration-thickness: 0.07em;
+            text-underline-offset: 0.18em;
+        }
+        .sort-btn:focus-visible { outline: 2px solid #333; outline-offset: 4px; }
+
+        /* the grid sits on the colour, with a thin gap */
+        .gallery { padding: 0 40px 56px; column-gap: 10px; }
+        .gallery-item { margin-bottom: 10px; }
+
+        /* the lightbox takes the page colour */
+        .lightbox { background-color: rgba(var(--page-rgb), 0.95); }
+        .lightbox-image-container img,
+        .lightbox-image-container iframe {
+            max-width: 86vw;
+            max-height: calc(100vh - 150px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+        }
+        .lightbox-arrow { color: #333; }
+        .lightbox-caption {
+            background: none;
+            color: #333;
+            font-size: clamp(17px, 1.6vw, 24px);
+            letter-spacing: -0.01em;
+            padding: 14px 20px 22px;
+        }
+        .lightbox-subnav { background: none; }
+        .lightbox-subnav, .subnav-btn, .image-counter { color: #333; }
+
+        /* each image lands with a small squash, like the ball hitting a wall */
+        @keyframes land {
+            0%   { transform: scale(1.06, 0.9); }
+            45%  { transform: scale(0.97, 1.04); }
+            75%  { transform: scale(1.01, 0.99); }
+            100% { transform: scale(1, 1); }
+        }
+        .lightbox-image-container img { animation: land 0.45s ease-out; }
+        @media (prefers-reduced-motion: reduce) {
+            .lightbox-image-container img { animation: none; }
+            body { transition: none; }
+        }
+
+        @media (max-width: 768px) {
+            .sort-controls { padding: 24px 20px 0; margin-bottom: 28px; }
+            .gallery { padding: 0 20px 40px; column-gap: 8px; }
+            .gallery-item { margin-bottom: 8px; }
+        }
+    </style>
 </head>
 <body>
     
@@ -104,7 +182,7 @@
     <!-- Sort Controls -->
     <div class="sort-controls">
         <button id="filterToggle" class="filter-toggle-btn">Filters ▼</button>
-        <div id="filterButtons" class="filter-buttons collapsed">
+        <div id="filterButtons" class="filter-buttons" role="group" aria-label="Filter work">
             <button class="sort-btn active" data-filter="all">All</button>
             <div id="dynamicFilters"></div>
         </div>
@@ -320,5 +398,33 @@
         <p>&copy; 2026 Angus McBryde. All rights reserved.</p>
     </footer>
     <script src="js/gallery.js" defer></script>
+
+    <script>
+    // A pastel for each visit, and the next one each time the lightbox closes
+    document.addEventListener("DOMContentLoaded", () => {
+        const PASTELS = [
+            [255, 216, 228], [207, 232, 255], [253, 243, 181],
+            [213, 245, 227], [230, 220, 255], [255, 220, 199],
+        ];
+        let i = Math.floor(Math.random() * PASTELS.length);
+        const apply = () => {
+            const [r, g, b] = PASTELS[i];
+            document.documentElement.style.setProperty("--page", `rgb(${r}, ${g}, ${b})`);
+            document.documentElement.style.setProperty("--page-rgb", `${r}, ${g}, ${b}`);
+        };
+        apply();
+        const lightbox = document.querySelector(".lightbox");
+        if (!lightbox) return;
+        let open = false;
+        new MutationObserver(() => {
+            const nowOpen = lightbox.classList.contains("active");
+            if (open && !nowOpen) {
+                i = (i + 1) % PASTELS.length;
+                apply();
+            }
+            open = nowOpen;
+        }).observe(lightbox, { attributes: true, attributeFilter: ["class"] });
+    });
+    </script>
 </body>
 </html>
