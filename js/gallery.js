@@ -62,6 +62,9 @@ let currentImages = [];
 
 // Show image in lightbox
 function showImage(index, subIndex = 0) {
+    // record which image is showing first, so its caption is the one used
+    currentIndex = index;
+    currentSubIndex = subIndex;
     const item = galleryItems[index];
     const videoUrl = item.getAttribute('data-video');
     const imagesData = item.getAttribute('data-images');
