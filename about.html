@@ -11,6 +11,76 @@
     <link rel="icon" type="image/ico" sizes="16x16" href="/favicon-16x16.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp">
     
+
+    <style>
+        /* About page: a short bio set large across the top, and a portrait you can throw */
+        body { transition: background-color 0.15s ease; overflow-x: hidden; }
+        header { background-color: transparent; position: relative; z-index: 2; }
+        .about-page {
+            display: block;
+            max-width: none;
+            padding: 48px 40px 56px;
+        }
+        .about-bio p {
+            max-width: 22em;
+            margin: 0 0 0.5em;
+            font-size: clamp(30px, 4.6vw, 72px);
+            line-height: 1.08;
+            letter-spacing: -0.025em;
+            color: #333;
+            text-wrap: pretty;
+        }
+        .about-bio p:last-child { margin-bottom: 0; }
+        .about-bio a {
+            text-decoration: underline;
+            text-decoration-thickness: 0.06em;
+            text-underline-offset: 0.12em;
+        }
+        .about-page .contact-icons {
+            justify-content: center;
+            margin-top: 56px;
+            position: relative;
+            z-index: 2;
+        }
+        /* the icons have white backgrounds; multiply lets the page colour show through them */
+        header,
+        .about-page .contact-icons { mix-blend-mode: multiply; }
+        .ball {
+            --d: clamp(110px, 15vw, 210px);
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--d);
+            height: var(--d);
+            margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 5;
+            cursor: grab;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+            will-change: transform;
+            visibility: hidden;
+        }
+        .ball.ready { visibility: visible; }
+        .ball.dragging { cursor: grabbing; }
+        .ball .spin { position: absolute; inset: 0; }
+        .ball img {
+            position: absolute;
+            width: 145%;
+            max-width: none;
+            height: auto;
+            left: -27.5%;
+            top: -10%;
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+        @media (max-width: 768px) {
+            .about-page { padding: 28px 20px 40px; }
+            .about-page .contact-icons { margin-top: 40px; }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,116 +96,202 @@
     </header>
 
     <main class="about-page">
-        <div class="about-portrait">
-            <div class="portrait-container">
-                <img src="images/portrait.webp" alt="Angus McBryde illustration">
-            </div>
-            
-            <!-- Icons below image -->
-            <nav class="menu contact-icons">
-                <a href="mailto:hello.angus@pm.me">
-                    <img src="images/icon-contact.webp" alt="email">
-                </a> 
-                <a href="https://podcastindex.org/podcast/937669" target="_blank">
-                    <img src="images/icon-menu.webp" alt="history-bonanza">
-                </a>
-                <a href="https://www.linkedin.com/in/angusmcbryde/" target="_blank">
-                    <img src="images/icon-linkedin.webp" alt="LinkedIn">
-                </a>
-            </nav>
-        </div>
-        
-        <div class="about-content">
-            <p>Hi, I'm Angus McBryde.</p> <p>I’m a graphic designer and performing arts marketer, a lifelong cyclist, and occasionally a broadcaster and musician from Dunedin, New Zealand. I currently live in Manchester, UK with my wife Nadia and our two daughters.</p> 
+        <section class="about-bio">
+            <p>I work at <a href="https://bandonthewall.org" target="_blank" rel="noopener">Band on the Wall</a>, a music venue and promoter, where I spend much of my time thinking about design, music, culture and how to bring interesting things into the world.</p>
+            <p>Away from work, I enjoy cycling, exploring new technologies and raising my daughters.</p>
+        </section>
 
-            <p>I graduated from the University of Otago in 2010 with a Bachelor of Consumer and Applied Science in Interdisciplinary Design Studies. Since the beginning of my career, I've believed that a designer's style should serve the project, not the other way around. After starting out agency-side, I moved into marketing, communications and design roles across the performing arts and events sector.</p>
-
-            <p>My experience includes senior marketing & communications, design and logistics roles with New Zealand International Science Festival, Auckland Arts Festival, and Whānau Marama: New Zealand International Film Festival.</p>
-
-            <p>I am currently Head of Marketing & Communications at Manchester music venue and national promoter <a href="https://bandonthewall.org" target="_blank">Band on the Wall</a>, where I’ve led campaigns for artists including Femi Kuti, Joan as Police Woman, Lady Blackbird, DakhaBrakha, Ladysmith Black Mambazo, and many others.</p>
-
-            <p>From 2018 to 2021, I was a founding board member and Design & Marketing Manager of award-winning theatre company Arcade. Around the same time, I co-hosted the <a href="https://podcastindex.org/podcast/937669" target="_blank">History Bonanza</a> on Radio One 91FM with Alex D. Wilson.</p>
-
-             <p>Between 2015 and 2017, I travelled extensively through South-East Asia, India, North Africa, Europe, the UK and the United States, including two solo cycle tours through The Netherlands and France, and hitchhiking trips around Ireland and Romania. Throughout those travels, I stayed almost exclusively with locals through Couchsurfing and Warm Showers, an experience that shaped the way I think about people, hospitality and community. A bike has always been my vehicle of choice.</p>
-
-            <p>I've revisited music throughout different stages of my life. Most recently, I’ve played bass guitar in indie-folk quintet <a href="https://tidal.com/album/538822346/u" target="_blank">The Broken Heartbreakers</a> and noise-pop quartet <a href="https://tidal.com/album/227731146/u" target="_blank">Asta Rangu</a>, and released a solo record, <a href="https://tidal.com/album/73386089/u" target="_blank"><em>Of No Particular Significance</em></a>, in 2017.</p>
-
-            <p>Wanna talk? <a href="mailto:hello.angus@pm.me" target="_blank">Email me!</a></p>
-        </div>
+        <nav class="menu contact-icons" aria-label="Contact">
+            <a href="mailto:hello.angus@pm.me">
+                <img src="images/icon-contact.webp" alt="email">
+            </a> 
+            <a href="https://podcastindex.org/podcast/937669" target="_blank">
+                <img src="images/icon-menu.webp" alt="history-bonanza">
+            </a>
+            <a href="https://www.linkedin.com/in/angusmcbryde/" target="_blank">
+                <img src="images/icon-linkedin.webp" alt="LinkedIn">
+            </a>
+        </nav>
     </main>
 
-    <section class="gallery">
-        <div class="gallery-item">
-            <img loading="lazy" src="images/signal-2022-06-15-074021_004.webp" alt="Band performance" data-caption="Performing with Asta Rangu, 2022">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/ALS_BHB_tour_glenroy_2021.webp" alt="ALS BHB Tour Glenroy 2021" data-caption="Performing with The Broken Heartbreakers, 2021">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/WhatsApp+Image+2023-04-05+at+11.41.23.webp" alt="Exhibition design" data-caption="Posing with exhibition designed for AAF23">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/signal-2022-06-15-074021_003.webp" alt="Band performance" data-caption="Performing with Asta Rangu, 2022">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/IMG-20230315-WA0005.webp" alt="Image 2023" data-caption="AAF23 marketing team">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/Business_McBryde.webp" alt="Business McBryde" data-caption="Auckland Arts Festival '23">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/WhatsApp+Image+2023-04-05+at+11.41.21.webp" alt="WhatsApp Image 2023" data-caption="Posing with AAF23 facade design">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/AAF23_LightNight_JC2587_lores.webp" alt="AAF23 Light Night" data-caption="Repping AAF'23">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/NZIFFOpeningNight-45.webp" alt="NZIFF Opening Night" data-caption="NZIFF '23 team">
-        </div>
-                <div class="gallery-item">
-            <img loading="lazy" src="images/dream_team_arcade_2019.webp" alt="Dream Team Arcade 2019" data-caption="Directing Arcade '20 season photoshoot">
-        </div>
-                <div class="gallery-item">
-            <img loading="lazy" src="images/Dunedin_Fringe_2019.webp" alt="Dunedin Fringe 2019" data-caption="Dunedin Fringe '19 team">
-        </div>
-                <div class="gallery-item">
-            <img loading="lazy" src="images/IMG_20180806_151357234.webp" alt="Image 2018" data-caption="Posing with Dunedin Arts Festival wordmark, 2018">
-        </div>
-                        <div class="gallery-item">
-            <img loading="lazy" src="images/AngusNadia18.webp" alt="Angus and Nadia" data-caption="Angus and Nadia, 2018">
-        </div>
-             <div class="gallery-item">
-            <img loading="lazy" src="images/radio.webp" alt="Radio" data-caption="Producing the History Bonanza radio show, 2018">
-        </div>
-             <div class="gallery-item">
-            <img loading="lazy" src="images/BBF_17.webp" alt="Album release" data-caption="Performing at Album Release show, 2017">
-        </div>
-                <div class="gallery-item">
-            <img loading="lazy" src="images/IMG_0443.webp" alt="Hitching Romania" data-caption="Hitchhiking in Romania, 2016">
-        </div>
-                        <div class="gallery-item">
-            <img loading="lazy" src="images/Sahara_16.webp" alt="Sahara Desert" data-caption="In the Sahara Desert, 2016">
-        </div>
-           <div class="gallery-item">
-            <img loading="lazy" src="images/Album-recording.webp" alt="Album recording" data-caption="Recording solo record in a Welsh treehouse, 2016">
-        </div>
-        <div class="gallery-item">
-            <img loading="lazy" src="images/AnaSibiu.webp" alt="CS_host" data-caption="With Couchsurfing host Ana in Sibiu, 2016">
-        </div>
-           <div class="gallery-item">
-            <img loading="lazy" src="images/Bacau_railway.webp" alt="train-waiting" data-caption="Waiting for a train in Bacau, 2016">
-        </div>
-                   <div class="gallery-item">
-            <img loading="lazy" src="images/Glow_13.webp" alt="Design Studio" data-caption="Walsh & Beck with Paula Hellyer, 2013">
-        </div>
-                    <div class="gallery-item">
-            <img loading="lazy" src="images/design-school.webp" alt="design school" data-caption="Design School Studio with Prof. Ralf Hebecker, 2010">
-        </div>
-             <div class="gallery-item">
-            <img loading="lazy" src="images/design-student.webp" alt="Design student" data-caption="McBryde the Student with J McKay, 2010">
-        </div>
-    </section>
 
-  <script src="js/gallery.js" defer></script>
+    <div class="ball" role="img" aria-label="Illustrated portrait of Angus McBryde">
+        <div class="spin"><img src="images/portrait.webp" alt=""></div>
+    </div>
+
+    <script>
+    (() => {
+        const el = document.querySelector(".ball");
+        const spin = el.querySelector(".spin");
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+        const THEMES = ["#ffffff", "#ffd8e4", "#cfe8ff", "#fdf3b5", "#d5f5e3", "#e6dcff", "#ffdcc7"];
+        const GRAVITY = 1500, SUBSTEPS = 4, WALL_K = 1100, WALL_C = 9, FRICTION = 0.3;
+
+        let W = innerWidth, H = innerHeight, R = el.offsetWidth / 2;
+        let I = 0.5 * R * R;
+        const b = { x: W * 0.72, y: H * 0.35, vx: 0, vy: 0, a: 0, w: 0, dir: Math.random() < 0.5 ? -1 : 1, lastRepel: 0 };
+        const press = { l: 0, r: 0, t: 0, b: 0 }, touching = {};
+        let theme = 0, drag = null, floor = false, side = 0, last = 0;
+        const pointer = { x: 0, y: 0, t: 0 };
+
+        const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+        function nextTheme() {
+            theme = (theme + 1) % THEMES.length;
+            document.body.style.backgroundColor = THEMES[theme];
+        }
+
+        /* sound */
+        let ac = null, lastThud = 0;
+        function armAudio() {
+            if (!ac) {
+                const C = window.AudioContext || window.webkitAudioContext;
+                if (!C) return;
+                try { ac = new C(); } catch { return; }
+            }
+            if (ac.state !== "running") ac.resume().catch(() => {});
+        }
+        function thud(speed) {
+            if (!ac || ac.state !== "running") return;
+            const now = performance.now();
+            if (now - lastThud < 40) return;
+            lastThud = now;
+            const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+            o.frequency.setValueAtTime(240, t);
+            o.frequency.exponentialRampToValueAtTime(80, t + 0.1);
+            g.gain.setValueAtTime(Math.min(0.24, 0.04 + speed / 8000), t);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+            o.connect(g).connect(ac.destination);
+            o.start(t); o.stop(t + 0.13);
+        }
+
+        /* physics: a heavy, springy ball */
+        function impulse(rx, ry, jx, jy) {
+            b.vx += jx; b.vy += jy;
+            b.w += (rx * jy - ry * jx) / I;
+        }
+        function walls(dt, impacts) {
+            const sides = [
+                ["l", R - b.x, 1, 0],
+                ["r", b.x + R - W, -1, 0],
+                ["t", R - b.y, 0, 1],
+                ["b", b.y + R - H, 0, -1],
+            ];
+            const maxPen = R * 0.5;
+            for (const [key, pen, nx, ny] of sides) {
+                press[key] = clamp(pen, 0, maxPen);
+                if (pen <= 0) { touching[key] = false; continue; }
+                if (key === "b") floor = true;
+                if (key === "l") side = -1;
+                if (key === "r") side = 1;
+                const rx = -nx * R, ry = -ny * R;
+                const vn = (b.vx - b.w * ry) * nx + (b.vy + b.w * rx) * ny;
+                if (!touching[key]) {
+                    touching[key] = true;
+                    if (-vn > 220) impacts.push(-vn);
+                }
+                const jn = Math.max(0, WALL_K * pen - WALL_C * vn) * dt;
+                impulse(rx, ry, jn * nx, jn * ny);
+                const tx = -ny, ty = nx;
+                const vt = (b.vx - b.w * ry) * tx + (b.vy + b.w * rx) * ty;
+                const rt = rx * ty - ry * tx;
+                const jt = clamp(-vt / (1 + (rt * rt) / I), -FRICTION * jn, FRICTION * jn);
+                impulse(rx, ry, jt * tx, jt * ty);
+                if (pen > maxPen) {
+                    b.x += nx * (pen - maxPen);
+                    b.y += ny * (pen - maxPen);
+                    const v = b.vx * nx + b.vy * ny;
+                    if (v < 0) { b.vx -= v * nx; b.vy -= v * ny; }
+                }
+            }
+        }
+        function dragStep(dt) {
+            const c = Math.cos(b.a), s = Math.sin(b.a);
+            const rx = c * drag.lx - s * drag.ly, ry = s * drag.lx + c * drag.ly;
+            const px = b.x + rx, py = b.y + ry;
+            const vpx = b.vx - b.w * ry, vpy = b.vy + b.w * rx;
+            const k = 0.25 / dt;
+            const dvx = (pointer.x - px) * k - vpx, dvy = (pointer.y - py) * k - vpy;
+            const k11 = 1 + (ry * ry) / I, k22 = 1 + (rx * rx) / I, k12 = -(rx * ry) / I;
+            const det = k11 * k22 - k12 * k12 || 1e-9;
+            impulse(rx, ry, ((k22 * dvx - k12 * dvy) / det) * 0.9, ((k11 * dvy - k12 * dvx) / det) * 0.9);
+            b.w *= 0.985;
+        }
+        function step(dt) {
+            const impacts = [];
+            floor = false; side = 0;
+            for (let i = 0; i < SUBSTEPS; i++) {
+                const h = dt / SUBSTEPS;
+                b.vy += GRAVITY * h;
+                b.x += b.vx * h; b.y += b.vy * h; b.a += b.w * h;
+                b.w *= 0.9993;
+                if (drag) dragStep(h);
+                walls(h, impacts);
+            }
+            if (impacts.length) { const s = Math.max(...impacts); nextTheme(); thud(s); }
+            // resting on the floor it rolls slowly; touching a side wall pushes it back and changes the colour
+            if (!drag && !reduceMotion.matches) {
+                if (floor) b.vx += (b.dir * 70 - b.vx) * 0.03;
+                const now = performance.now();
+                if (side && side === b.dir && now - b.lastRepel > 700) {
+                    b.dir = -b.dir;
+                    b.lastRepel = now;
+                    b.vx = b.dir * 260;
+                    b.vy -= 120;
+                    nextTheme();
+                    thud(400);
+                }
+            }
+        }
+        function render() {
+            const sxRaw = 1 - (press.l + press.r) / (2 * R);
+            const syRaw = 1 - (press.t + press.b) / (2 * R);
+            const sx = sxRaw * (1 + 0.5 * (1 - syRaw));
+            const sy = syRaw * (1 + 0.5 * (1 - sxRaw));
+            const cx = b.x + (press.l - press.r) / 2;
+            const cy = b.y + (press.t - press.b) / 2;
+            el.style.transform = `translate(${cx}px, ${cy}px) scale(${sx}, ${sy})`;
+            spin.style.transform = `rotate(${b.a}rad)`;
+        }
+        function frame(now) {
+            const dt = last ? Math.min(1 / 30, (now - last) / 1000) : 1 / 60;
+            last = now;
+            step(dt);
+            render();
+            requestAnimationFrame(frame);
+        }
+
+        /* input */
+        el.addEventListener("pointerdown", (e) => {
+            armAudio();
+            if (drag) return;
+            try { el.setPointerCapture(e.pointerId); } catch {}
+            const dx = e.clientX - b.x, dy = e.clientY - b.y;
+            const c = Math.cos(-b.a), s = Math.sin(-b.a);
+            drag = { id: e.pointerId, lx: c * dx - s * dy, ly: s * dx + c * dy };
+            Object.assign(pointer, { x: e.clientX, y: e.clientY, t: performance.now() });
+            el.classList.add("dragging");
+            e.preventDefault();
+        });
+        el.addEventListener("pointermove", (e) => {
+            if (!drag || drag.id !== e.pointerId) return;
+            Object.assign(pointer, { x: e.clientX, y: e.clientY, t: performance.now() });
+        });
+        const release = (e) => {
+            if (!drag || drag.id !== e.pointerId) return;
+            if (performance.now() - pointer.t > 90) { b.vx *= 0.3; b.vy *= 0.3; b.w *= 0.5; }
+            drag = null;
+            el.classList.remove("dragging");
+        };
+        el.addEventListener("pointerup", release);
+        el.addEventListener("pointercancel", release);
+
+        addEventListener("resize", () => {
+            W = innerWidth; H = innerHeight;
+            R = el.offsetWidth / 2; I = 0.5 * R * R;
+        });
+        el.classList.add("ready");
+        requestAnimationFrame(frame);
+    })();
+    </script>
 </body>
 </html>
